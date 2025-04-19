@@ -1,4 +1,4 @@
-# CASA00025 Group Project Title Here
+# Spatiotemporal Monitoring of Lake Cyanobacterial Blooms: A Case Study of Chaohu Lake
 
 ## Project Summary 
 
