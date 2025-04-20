@@ -78,7 +78,7 @@ Firstly, we need to identify water bodies in Chaohu Lake by calculating the Modi
 It filters out small water bodies, retaining larger regions for further analysis. The boundaries of the remaining water features are buffered inward by 20 meters to eliminate edge effects and improve accuracy in the water delineation. 
 This approach is designed to accurately define the lake's water boundaries for environmental monitoring.
 
-```
+```js
 // calculate MNDWI
 
 var mndwi = compositeImage.normalizedDifference(['B3', 'B11']).rename('MNDWI');
@@ -112,7 +112,8 @@ var bufferedWaterOutline = filteredWater.map(function(feature) {
 Secondly, we use FAI index to identify cyanobacterial blooms. The formulas are as follow:
 $$ \Large \text{FAI} = \rho_{\text{nir}} - \rho'_{\text{nir}} $$
 $$ \Large \rho'_{\text{nir}} = \rho_{\text{red}} + \left( \rho_{\text{swir}} - \rho_{\text{red}} \right) \times \frac{833 - 664.5}{1613.7 - 664.5} $$
-```
+
+```js
 var calculateFAI = function(image) {
   // import bands: B4, B8, B11
   var red = image.select('B4'); // 664 nm
