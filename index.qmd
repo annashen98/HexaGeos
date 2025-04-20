@@ -3,20 +3,27 @@
 ## Project Summary 
 
 Harmful algal blooms (HABs), particularly cyanobacterial blooms (CBs), are among the most critical environmental issues facing inland water bodies. These blooms pose significant threats to global public health and aquatic ecosystem stability. Chaohu Lake, the fifth-largest freshwater lake in China, faces severe eutrophication and frequent CBs due to agricultural runoff, industrial, and domestic pollution. 
+
 Remote sensing technology enables real-time detection and long-term monitoring of CBs. This study focuses on Chaohu Lake as a case study, aiming to quantify and visualize the occurrence of CBs in the region over the past decade, providing insights into the impact of human activities on water quality and ecosystem health.
 
 ### Problem Statement 
 
 This application addresses two key research questions: 
+
 1. What is the spatial distribution of cyanobacterial blooms (CBs) in Chaohu Lake? 
+
 2. What temporal patterns characterize the occurrence of CBs in Chaohu Lake? 
+
 By leveraging remote sensing technology and indices, the application provides a cost-effective, real-time solution for quantifying and visualizing CB occurrences, enabling a deeper understanding of their spatial and temporal dynamics to inform management strategies.
 
 ### End User 
 
 This application is designed to serve environmental researchers, policymakers, local authorities, and residents in the Chaohu Lake region.
+
 For researchers, it provides real-time monitoring of cyanobacterial blooms (CBs), offering insights into their spatial distribution and temporal patterns, which are essential for scientific analysis and environmental management.
+
 For policymakers and local authorities, the tool enables data-driven decision-making to implement effective mitigation strategies, allocate resources efficiently, and establish long-term action plans to address water quality challenges.
+
 For residents, the application raises awareness about water quality issues and associated health risks, empowering communities to take measures and engage in sustainability efforts. 
 
 ### Data
@@ -75,6 +82,7 @@ var compositeImage = s2.mosaic(); //Synthesize images within the same time perio
 
 ### 3.2 Data Calculating
 Firstly, we need to identify water bodies in Chaohu Lake by calculating the Modified Normalized Difference Water Index(MNDWI), applying a threshold to create a water mask, and then vectorizing the water areas. 
+
 It filters out small water bodies, retaining larger regions for further analysis. The boundaries of the remaining water features are buffered inward by 20 meters to eliminate edge effects and improve accuracy in the water delineation. 
 This approach is designed to accurately define the lake's water boundaries for environmental monitoring.
 
@@ -110,8 +118,8 @@ var bufferedWaterOutline = filteredWater.map(function(feature) {
 ```
 
 Secondly, we use FAI index to identify cyanobacterial blooms. The formulas are as follow:
-$$ \Large \text{FAI} = \rho_{\text{nir}} - \rho'_{\text{nir}} $$
-$$ \Large \rho'_{\text{nir}} = \rho_{\text{red}} + \left( \rho_{\text{swir}} - \rho_{\text{red}} \right) \times \frac{833 - 664.5}{1613.7 - 664.5} $$
+$$ \text{FAI} = \rho_{\text{nir}} - \rho'_{\text{nir}} $$
+$$ \rho'_{\text{nir}} = \rho_{\text{red}} + \left( \rho_{\text{swir}} - \rho_{\text{red}} \right) \times \frac{833 - 664.5}{1613.7 - 664.5} $$
 
 ```js
 var calculateFAI = function(image) {
@@ -156,7 +164,10 @@ $$ \Large t = {\frac{\overline{x_1}-\overline{x_2}} {\sqrt{\frac{s^2_1}{n_1} + \
 
 ### References
 [1]Brooks, B.W., Lazorchak, J.M., Howard, M.D., Johnson, M.V.V., Morton, S.L., Perkins, D.A., Reavie, E.D., Scott, G.I., Smith, S.A. and Steevens, J.A., 2016. Are harmful algal blooms becoming the greatest inland water quality threat to public health and aquatic ecosystems?. Environmental toxicology and chemistry, 35(1), pp.6-13.
+
 [2]Jing, Y., Zhang, Y., Hu, M., Chu, Q. and Ma, R., 2019. MODIS-satellite-based analysis of long-term temporal-spatial dynamics and drivers of algal blooms in a plateau lake Dianchi, China. Remote Sensing, 11(21), p.2582.
+
 [3]Guo, H., Liu, H., Lyu, H., Bian, Y., Zhong, S., Li, Y., Miao, S., Yang, Z., Xu, J., Cao, J. and Li, Y., 2022. Is there any difference on cyanobacterial blooms patterns between Lake Chaohu and Lake Taihu over the last 20 years?. Environmental Science and Pollution Research, 29(27), pp.40941-40953.
+
 [4]Song, T., Xu, C., Yan, F. & Zhang, J. (2025) 'Spatiotemporal Monitoring of Lake Cyanobacterial Blooms Based on Sentinel-2 Data', China Environmental Monitoring, 41(1), pp. 214–224
 [5]Hu, C., 2009. A novel ocean color index to detect floating algae in the global oceans. Remote Sensing of Environment, 113(10), pp.2118-2129.
