@@ -1,4 +1,18 @@
-# Spatiotemporal Monitoring of Lake Cyanobacterial Blooms: A Case Study of Chaohu Lake
+---
+title: 'Spatiotemporal Monitoring of Lake Cyanobacterial Blooms: A Case Study of Chaohu Lake'
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.16.4
+  kernelspec:
+    display_name: Python (base)
+    language: python
+    name: base
+---
+
 
 ## Project Summary 
 
@@ -115,15 +129,34 @@ var bufferedWaterOutline = filteredWater.map(function(feature) {
   var bufferedGeometry = geometry.buffer(-20); 
   return ee.Feature(bufferedGeometry);
 });
+
+// Visualize the lake boundary
+Map.addLayer(bufferedWaterOutline, {
+  color: 'blue',        
+  fillColor: '00000000',
+  width: 2
+}, 'Chaohu Lake Outline');
+
+// Create water mask image for subsequent processing
+var waterMaskImage = ee.Image().byte().paint({
+  featureCollection: filteredWater,
+  color: 1
+}).clip(chaohu);
 ```
 
-Secondly, we use FAI index to identify cyanobacterial blooms. The formulas are as follow:
+Secondly, we calculate Floating Algae Index (FAI) and Turbidity Index (TI). FAI is used to identify cyanobacterial blooms. The formulas are as follow:
 $$ \text{FAI} = \rho_{\text{nir}} - \rho'_{\text{nir}} $$
 $$ \rho'_{\text{nir}} = \rho_{\text{red}} + \left( \rho_{\text{swir}} - \rho_{\text{red}} \right) \times \frac{833 - 664.5}{1613.7 - 664.5} $$
 
+TI is used to rule out the effects of high turbidity waters on cyanobacterial blooms. The formulas are as follow:
+$$
+TI = \rho_{red} - \rho_{green} - \left( \frac{\rho_{nir} - \rho_{green}}{2} \right)
+$$
+
 ```js
-var calculateFAI = function(image) {
-  // import bands: B4, B8, B11
+var calculateIndices = function(image) {
+  // import bands: B3, B4, B8, B11
+  var green = image.select('B3'); // 560 nm
   var red = image.select('B4'); // 664 nm
   var nir = image.select('B8'); // 833 nm
   var swir = image.select('B11'); // 1613 nm
@@ -135,24 +168,80 @@ var calculateFAI = function(image) {
   
   // calculate FAI
   var fai = nir.subtract(nirPrime).rename('FAI');
+    
+  // calculate TI
+  var ti = red.subtract(green).subtract(
+    nir.subtract(green).multiply(0.5)
+  ).rename('TI');
   
-  // add FAI as new band
-  return image.addBands(fai).clip(bufferedWaterOutline);
+  // add indices as new bands
+  return image.addBands(fai).addBands(ti).clip(bufferedWaterOutline);
 };
 
-// calculate FAI
-var s2WithFAI = s2.map(calculateFAI);
+// process all images
+var s2WithIndices = s2.map(calculateIndices);
 
-// check how many images are there in the time range
-var imageCount = s2WithFAI.size();
+// check image availability
+var imageCount = s2WithIndices.size();
 print('Number of images is:', imageCount);
 
 if (imageCount.gt(0)) {
-  // calculate average value of FAI band
+  // calculate average value of FAI and TI
   var FAIMean = s2WithFAI.select('FAI').mean();
-} else {
-  print('No images found.');
+  var TIMean = s2WithIndices.select('TI').mean();
+    
+  // visualization parameters
+  var faiVisParams = {min: -0.1, max: -0.004, palette: ['blue', 'white', 'red']};
+  var tiVisParams = {min: -0.1, max: 0.1, palette: ['blue', 'white', 'brown']};
+  
+  // add index layers to map
+  Map.addLayer(FAIMean, faiVisParams, 'Mean FAI');
+  Map.addLayer(TIMean, tiVisParams, 'Mean Turbidity Index');
 }
+```
+
+We sequentially apply quality masks to filter clouds (B4 > 0.2), atmospheric effects (I1/I2 indices), and turbid waters (TI > 0). Valid water pixels are then analyzed for blooms using the FAI threshold (> -0.004). Results are stored in a new `algae` band appended to each processed image.
+
+```js
+var processAlgaeDetection = function(image) {
+  // select required bands
+  var b1 = image.select('B1'); // 442 nm
+  var b4 = image.select('B4'); // 664 nm
+  var b5 = image.select('B5'); // 704 nm
+  var b7 = image.select('B7'); // 782 nm
+  
+  // cloud masking (B4 > 0.2)
+  var cloudMask = b4.lt(0.2); 
+  
+  // calculate thin cloud and shadow indices: I1 and I2
+  var I1 = b1.subtract(b7).divide(b1.add(b7)).rename('I1'); // (B1 - B7)/(B1 + B7)
+  var I2 = b5.subtract(b4).divide(b5.add(b7)).rename('I2'); // (B5 - B4)/(B5 + B7)
+  
+  // apply thin cloud/shadow filters (I1>0.08 and I2<0.1)
+  var thinCloudShadowMask = I1.gt(0.08).and(I2.lt(0.1)).not(); 
+  
+  // turbidity masking (TI > 0)
+  var ti = image.select('TI');
+  var turbidityMask = ti.lte(0); 
+  
+  
+  // bloom detection (FAI > -0.004)
+  var fai = image.select('FAI');
+  var algaeMask = fai.gt(-0.004); 
+  
+  // combine all masks
+  var finalMask = cloudMask.and(thinCloudShadowMask).and(turbidityMask).and(waterMaskImage);
+  
+  // apply masks and identify bloom areas
+  var algaeArea = algaeMask.updateMask(finalMask).selfMask();
+  
+  // add bloom detection as new band
+  return image.addBands(algaeArea.rename('algae'));
+};
+
+// process all images for bloom detection
+var s2WithAlgae = s2WithIndices.map(processAlgaeDetection);
+
 ```
 
 You can include images:
@@ -171,3 +260,4 @@ $$ \Large t = {\frac{\overline{x_1}-\overline{x_2}} {\sqrt{\frac{s^2_1}{n_1} + \
 
 [4]Song, T., Xu, C., Yan, F. & Zhang, J. (2025) 'Spatiotemporal Monitoring of Lake Cyanobacterial Blooms Based on Sentinel-2 Data', China Environmental Monitoring, 41(1), pp. 214–224
 [5]Hu, C., 2009. A novel ocean color index to detect floating algae in the global oceans. Remote Sensing of Environment, 113(10), pp.2118-2129.
+
