@@ -42,11 +42,11 @@ For residents, the application raises awareness about water quality issues and a
 
 ### Data
 
-What data are you using? 
+This application uses Sentinel-2 MSI imagery from the Google Earth Engine platform. The image collection spans from 2018 to 2020 and is filtered for cloud coverage under 20%. Additionally, vegetation and water indices such as MNDWI, FAI, and TI are derived for analysis.
 
 ### Methodology
 
-How are you using this data to address the problem?
+We use median composites and custom cloud masking for preprocessing. Water bodies are extracted using MNDWI, and bloom areas are identified by combining FAI and TI thresholds. We calculate bloom area statistics, classify bloom severity, and compute the Spatial Distribution Frequency Index (SDFI) for spatial analysis.
 
 ### Interface
 
@@ -82,8 +82,8 @@ Map.centerObject(chaohu, 10);
 ////////////////import data////////////////
 
 // set time range
-var startDate = '2025-04-01';
-var endDate = '2025-04-19';
+var startDate = '2018-05-01';
+var endDate = '2018-11-01';
 
 // import Sentinel-2 data and filter
 var s2 = ee.ImageCollection('COPERNICUS/S2')
@@ -93,163 +93,203 @@ var s2 = ee.ImageCollection('COPERNICUS/S2')
   
 var compositeImage = s2.mosaic(); //Synthesize images within the same time period
 ```
+### 3.2 遥感指数介绍
+为了有效识别蓝藻水华，我们计算并应用了三种关键遥感指数：
+1. Modified Normalized Difference Water Index (MNDWI)
+它用于区分水体与陆地，计算公式如下：
+$$
+\text{MNDWI} = \frac{\rho_{\text{green}} - \rho_{\text{swir}}}{\rho_{\text{green}} + \rho_{\text{swir}}}
+$$
+其中：$\rho_{\text{Green}}$ 为绿波段（B3）反射率，$\rho_{\text{SWIR}}$ 为短波红外波段（B11）反射率。
+```js
+// 计算 MNDWI
+var mndwi = medianComposite.normalizedDifference(['B3', 'B11']).rename('MNDWI');
+```
 
-### 3.2 Data Calculating
-Firstly, we need to identify water bodies in Chaohu Lake by calculating the Modified Normalized Difference Water Index(MNDWI), applying a threshold to create a water mask, and then vectorizing the water areas. 
-
-It filters out small water bodies, retaining larger regions for further analysis. The boundaries of the remaining water features are buffered inward by 20 meters to eliminate edge effects and improve accuracy in the water delineation. 
-This approach is designed to accurately define the lake's water boundaries for environmental monitoring.
+2. Floating Algae Index (FAI)
+FAI专门用于检测蓝藻水华，计算公式如下：
+$$
+\text{FAI} = \rho_{\text{nir}} - \rho_{\text{nir}}'
+$$
+其中$\rho'_{\text{NIR}}$是近红外波段的基线反射率，公式如下：
+$$
+\rho_{\text{nir}}' = \rho_{\text{red}} + (\rho_{\text{swir}} - \rho_{\text{red}}) \times \frac{\lambda_{\text{nir}} - \lambda_{\text{red}}}{\lambda_{\text{swir}} - \lambda_{\text{red}}}
+$$
 
 ```js
-// calculate MNDWI
+// 计算FAI
+var nirPrime = red.add(
+  swir.subtract(red).multiply((833 - 664.5) / (1613.7 - 664.5))
+);
+var fai = nir.subtract(nirPrime).rename('FAI');
+```
+3. 浊度指数（TI）
+采用TI来排除高浊度水体对蓝藻水华的影响，公式如下：
+$$
+TI = \rho_{red} - \rho_{green} - \left( \frac{\rho_{nir} - \rho_{green}}{2} \right)
+$$
+```js
+// 计算 TI
+var ti = red.subtract(green).subtract(
+  nir.subtract(green.multiply(0.5))
+).rename('TI');
+```
+完整的指数计算函数：
+```js
+function calculateIndices(image) {
+  // 归一化反射率
+  var green = image.select('B3').divide(10000);
+  var red = image.select('B4').divide(10000);
+  var nir = image.select('B8').divide(10000);
+  var swir = image.select('B11').divide(10000);
+  
+  // 计算FAI
+  var nirPrime = red.add(swir.subtract(red).multiply((833 - 664.5) / (1613.7 - 664.5)));
+  var fai = nir.subtract(nirPrime).rename('FAI');
+  
+  // 计算TI
+  var ti = red.subtract(green).subtract(nir.subtract(green.multiply(0.5))).rename('TI');
+  
+  // 添加波段并应用水体掩膜
+  return image.addBands(fai).addBands(ti).updateMask(waterMaskImage);
+}
 
-var mndwi = compositeImage.normalizedDifference(['B3', 'B11']).rename('MNDWI');
+```
+### 3.3 云掩膜处理
+云层在可见光-近红外波段的反射特性与蓝藻水华相似，会导致FAI值较高出现假阳性，因此需要进行去云操作。
+云掩膜处理使用了两种特殊的光谱指数：
+$I_1 = \frac{B1 - B7}{B1 + B7}$，当值 > 0.08 时通常表示薄云
+$I_2 = \frac{B5 - B4}{B5 + B7}$，当值 < 0.1 且I₁值较高时，可帮助识别薄云特征
+首先，利用红波段（B4）反射率高于0.2的特性检测厚云区域；其次，通过气溶胶波段（B1）与红边3波段（B7）的比值指数（I1）及红边1波段（B5）与红波段的比值指数（I2）识别薄云和阴影，设定I1>0.08且I2<0.1的条件来剔除这些干扰像元；最后，将厚云和薄云检测结果结合，生成综合云掩膜，仅保留无云像元供后续分析。
+```js
+function maskCloud(image) {
+  // 归一化反射率
+  var b1 = image.select('B1').divide(10000); // 气溶胶 (442 nm)
+  var b4 = image.select('B4').divide(10000); // 红波段 (664 nm)
+  var b5 = image.select('B5').divide(10000); // 红边1 (704 nm)
+  var b7 = image.select('B7').divide(10000); // 红边3 (782 nm)
+  
+  // 基础云掩膜（B4 > 0.2）
+  var cloudMask = b4.lt(0.2);
+  
+  // 薄云/阴影剔除
+  var I1 = b1.subtract(b7).divide(b1.add(b7)); // (B1-B7)/(B1+B7)
+  var I2 = b5.subtract(b4).divide(b5.add(b7)); // (B5-B4)/(B5+B7)
+  var thinCloudMask = I1.gt(0.08).and(I2.lt(0.1)).not();
+  
+  // 综合云掩膜
+  return image.updateMask(cloudMask.and(thinCloudMask));
+}
+```
 
-// set MNDWI threhold
-var waterMask = mndwi.gt(0.1).selfMask(); // MNDWI > 0.1 represents water
+### 3.4高浊度水体掩膜
+高浊度水体（如含大量泥沙或悬浮物）在光学特性上与蓝藻水华存在相似性，也可能导致假阳性误判。因此为了排除高浊度水体对蓝藻水华的影响，我们利用浊度指数（TI）进行掩膜处理。
+```js
+// 浊度掩膜（TI > 0）
+  var ti = red.subtract(green).subtract(
+    nir.subtract(green).multiply(0.5)
+  ).rename('TI');
+```
+我们使用TI > 0作为蓝藻水华的判别条件之一，这有助于排除非藻类引起的高浊度水体的干扰。完整的处理流程如下：
+```js
+// 设置 MNDWI 阈值，生成水体掩膜
+var waterMask = mndwi.gt(0.1).selfMask(); // MNDWI > 0.1 表示水体
 
-// Convert the water mask into a vector
+// 将水体掩膜转换为矢量
 var waterVector = waterMask.clip(chaohu).reduceToVectors({
   geometryType: 'polygon',
   reducer: ee.Reducer.countEvery(),
   scale: 30,
-  maxPixels: 10e6, 
-  bestEffort: true   
+  maxPixels: 10e6,
+  bestEffort: true
 });
 
-// filter water area less than the threshold (unit: square meters)
-var minArea = 1000000; 
+// 过滤面积小于阈值的水体（单位：平方米）
+var minArea = 1000000; // 保留面积大于1,000,000平方米的水域
+var filteredWater = waterVector.filter(ee.Filter.gte('count', minArea));
 
-var filteredWater = waterVector.filter(ee.Filter.gte('count', minArea)); 
-
-
-// Extract the water body boundaries and buffer inward by 20 meters to remove the influence of the water-land interface
+// 提取水体的边界并向内缓冲 20 米，去除水路交界地影响
 var bufferedWaterOutline = filteredWater.map(function(feature) {
-  var geometry = feature.geometry();
-  var bufferedGeometry = geometry.buffer(-20); 
-  return ee.Feature(bufferedGeometry);
+  return feature.buffer(-20); // 向内缓冲 20 米
 });
 
-// Visualize the lake boundary
-Map.addLayer(bufferedWaterOutline, {
-  color: 'blue',        
-  fillColor: '00000000',
-  width: 2
-}, 'Chaohu Lake Outline');
-
-// Create water mask image for subsequent processing
+// 创建水体掩膜图像用于后续处理
 var waterMaskImage = ee.Image().byte().paint({
   featureCollection: filteredWater,
   color: 1
 }).clip(chaohu);
+
 ```
-
-Secondly, we calculate Floating Algae Index (FAI) and Turbidity Index (TI). FAI is used to identify cyanobacterial blooms. The formulas are as follow:
-$$ \text{FAI} = \rho_{\text{nir}} - \rho'_{\text{nir}} $$
-$$ \rho'_{\text{nir}} = \rho_{\text{red}} + \left( \rho_{\text{swir}} - \rho_{\text{red}} \right) \times \frac{833 - 664.5}{1613.7 - 664.5} $$
-
-TI is used to rule out the effects of high turbidity waters on cyanobacterial blooms. The formulas are as follow:
-$$
-TI = \rho_{red} - \rho_{green} - \left( \frac{\rho_{nir} - \rho_{green}}{2} \right)
-$$
-
+通过这一系列掩膜处理，我们可以有效地排除云、薄云、阴影以及高浊度水体的干扰，从而提高蓝藻水华检测的准确性。也就是说当一个像元同时满足 FAI > -0.004和 TI ≤ 0时，标记为蓝藻水华；
 ```js
-var calculateIndices = function(image) {
-  // import bands: B3, B4, B8, B11
-  var green = image.select('B3'); // 560 nm
-  var red = image.select('B4'); // 664 nm
-  var nir = image.select('B8'); // 833 nm
-  var swir = image.select('B11'); // 1613 nm
-  
-  // calculate ρ'nir
-  var nirPrime = red.add(
-    swir.subtract(red).multiply((833 - 664.5) / (1613.7 - 664.5))
-  );
-  
-  // calculate FAI
-  var fai = nir.subtract(nirPrime).rename('FAI');
-    
-  // calculate TI
-  var ti = red.subtract(green).subtract(
-    nir.subtract(green).multiply(0.5)
-  ).rename('TI');
-  
-  // add indices as new bands
-  return image.addBands(fai).addBands(ti).clip(bufferedWaterOutline);
-};
-
-// process all images
-var s2WithIndices = s2.map(calculateIndices);
-
-// check image availability
-var imageCount = s2WithIndices.size();
-print('Number of images is:', imageCount);
-
-if (imageCount.gt(0)) {
-  // calculate average value of FAI and TI
-  var FAIMean = s2WithFAI.select('FAI').mean();
-  var TIMean = s2WithIndices.select('TI').mean();
-    
-  // visualization parameters
-  var faiVisParams = {min: -0.1, max: -0.004, palette: ['blue', 'white', 'red']};
-  var tiVisParams = {min: -0.1, max: 0.1, palette: ['blue', 'white', 'brown']};
-  
-  // add index layers to map
-  Map.addLayer(FAIMean, faiVisParams, 'Mean FAI');
-  Map.addLayer(TIMean, tiVisParams, 'Mean Turbidity Index');
-}
-```
-
-We sequentially apply quality masks to filter clouds (B4 > 0.2), atmospheric effects (I1/I2 indices), and turbid waters (TI > 0). Valid water pixels are then analyzed for blooms using the FAI threshold (> -0.004). Results are stored in a new `algae` band appended to each processed image.
-
-```js
-var processAlgaeDetection = function(image) {
-  // select required bands
-  var b1 = image.select('B1'); // 442 nm
-  var b4 = image.select('B4'); // 664 nm
-  var b5 = image.select('B5'); // 704 nm
-  var b7 = image.select('B7'); // 782 nm
-  
-  // cloud masking (B4 > 0.2)
-  var cloudMask = b4.lt(0.2); 
-  
-  // calculate thin cloud and shadow indices: I1 and I2
-  var I1 = b1.subtract(b7).divide(b1.add(b7)).rename('I1'); // (B1 - B7)/(B1 + B7)
-  var I2 = b5.subtract(b4).divide(b5.add(b7)).rename('I2'); // (B5 - B4)/(B5 + B7)
-  
-  // apply thin cloud/shadow filters (I1>0.08 and I2<0.1)
-  var thinCloudShadowMask = I1.gt(0.08).and(I2.lt(0.1)).not(); 
-  
-  // turbidity masking (TI > 0)
-  var ti = image.select('TI');
-  var turbidityMask = ti.lte(0); 
-  
-  
-  // bloom detection (FAI > -0.004)
+function detectAlgae(image) {
+  // 获取FAI和TI波段
   var fai = image.select('FAI');
-  var algaeMask = fai.gt(-0.004); 
+  var ti = image.select('TI');
   
-  // combine all masks
-  var finalMask = cloudMask.and(thinCloudShadowMask).and(turbidityMask).and(waterMaskImage);
+  // 蓝藻水华条件：FAI > -0.004 且 TI ≤ 0
+  var algaeMask = fai.gt(-0.004).and(ti.lte(0));
   
-  // apply masks and identify bloom areas
-  var algaeArea = algaeMask.updateMask(finalMask).selfMask();
-  
-  // add bloom detection as new band
-  return image.addBands(algaeArea.rename('algae'));
-};
+  return image.addBands(algaeMask.rename('algae'));
+}
 
-// process all images for bloom detection
-var s2WithAlgae = s2WithIndices.map(processAlgaeDetection);
-
+var s2WithAlgae = s2WithIndices.map(detectAlgae);
 ```
+### 3.5 时间与空间分析（SDFI）
 
-You can include images:
+我们使用每日水华面积计算来进行时间分析，时间序列图表可以帮助我们分析水华季节规律（如夏季高发）或年际趋势（如治理效果评估）。
+```js
+// 计算每日蓝藻水华面积
+function calculateDailyBloomArea(image) {
+  var bloom = image.select('algae');
+  var area = bloom.multiply(ee.Image.pixelArea()).rename('bloom_area');
+  var date = image.date().format('YYYY-MM-dd');
+  
+  return ee.Feature(null, {
+    'date': date,
+    'bloom_area': area,
+    'system:time_start': image.get('system:time_start')
+  });
+}
+var dailyStats = s2WithAlgae.map(calculateDailyBloomArea);
+```
+为了量化蓝藻水华的时空动态特征，我们引入了空间分布频率指数（SDFI）指标来进行空间分析。
+$$
+\text{SDFI} = \frac{\sum_{i=1}^{n} R_{i,\text{bloom}}}{\sum_{i=1}^{n} R_{i,\text{bloom}} + \sum_{i=1}^{n} R_{i,\text{water}}} \times 100\%
+$$
+SDFI是用来衡量某一地理位置上蓝藻水华发生频率的指标。它描述了在监测时间段内，一个像元上出现蓝藻水华的次数占总观测次数的百分比，本质上反映了蓝藻水华的易发性。
+```js
+// 计算SDFI
+var bloomCollection = s2WithAlgae.select('algae');
+var bloomSum = bloomCollection.sum();
+var validCount = bloomCollection.count();
+var sdfi = bloomSum.divide(validCount).multiply(100).rename('SDFI');
+```
+根据SDFI的结果，我们可以识别高频水华区域，针对高频区加强治理。
 
-![Pixelwise T-Test, 2018](images/beirut_change_2020.jpg)
-
-and math:
-$$ \Large t = {\frac{\overline{x_1}-\overline{x_2}} {\sqrt{\frac{s^2_1}{n_1} + \frac{s^2_2}{n_2}}}} $$
+### 3.6 水华分级
+基于FAI值和红波段反射率，建立了蓝藻水华的分级系统将水华划分为5个等级（VCI_Lv2至VCI_Lv6），从而量化藻类聚集密度和生态风险。
+```js
+function classifyBloom(image) {
+  var fai = image.select('FAI');
+  var red = image.select('B4').divide(10000);
+  
+  // 分级标准
+  var lv2 = fai.gte(-0.004).and(fai.lt(0.1));    
+  var lv3 = fai.gte(0.1).and(fai.lt(0.15));      
+  var lv4 = fai.gte(0.15).and(fai.lt(0.2));      
+  var lv5 = fai.gte(0.2).and(red.lt(0.07));      
+  var lv6 = fai.gte(0.2).and(red.gte(0.07));     
+  
+  return image
+    .addBands(lv2.rename('VCI_Lv2'))
+    .addBands(lv3.rename('VCI_Lv3'))
+    .addBands(lv4.rename('VCI_Lv4'))
+    .addBands(lv5.rename('VCI_Lv5'))
+    .addBands(lv6.rename('VCI_Lv6'));
+}
+var classified = s2WithAlgae.map(classifyBloom);
+```
 
 ### References
 [1]Brooks, B.W., Lazorchak, J.M., Howard, M.D., Johnson, M.V.V., Morton, S.L., Perkins, D.A., Reavie, E.D., Scott, G.I., Smith, S.A. and Steevens, J.A., 2016. Are harmful algal blooms becoming the greatest inland water quality threat to public health and aquatic ecosystems?. Environmental toxicology and chemistry, 35(1), pp.6-13.
