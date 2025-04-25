@@ -48,20 +48,44 @@ This application uses Sentinel-2 MSI imagery from the Google Earth Engine platfo
 
 We use median composites and custom cloud masking for preprocessing. Water bodies are extracted using MNDWI, and bloom areas are identified by combining FAI and TI thresholds. We calculate bloom area statistics, classify bloom severity, and compute the Spatial Distribution Frequency Index (SDFI) for spatial analysis.
 
-### Interface
-
-How does your application's interface work to address the needs of your end user?
+### Interactive Web Map Interface
 
 ## The Application 
 
-Replace the link below with the link to your application.
-
 :::{.column-page}
 
-<iframe src='https://ollielballinger.users.earthengine.app/view/turkey-earthquake' width='100%' height='700px'></iframe>
+<iframe src='https://sjlin24.users.earthengine.app/view/hexageos24ucl' width='100%' height='700px'></iframe>
 
 :::
 ## How it Works 
+
+Our interactive web application offers an intuitive platform for exploring and analyzing the spatiotemporal patterns of cyanobacterial blooms in Lake Chaohu. Main features include:
+
+- **Algal Bloom Intensity Layers:** Select different severity levels (VCI_Lv2 to VCI_Lv6) to visualize spatial distribution patterns of cyanobacterial blooms for detailed hotspot analysis.
+
+- **Dynamic Area Chart:** Click "Generate Daily Algae Area Chart" to plot daily changes in bloom area and analyze temporal trends and peak periods.
+
+- **Data Export Tools:** Download daily, monthly, or yearly statistical data with one click for further analysis outside the platform.
+
+- **Date Slider:** Use the slider to visualize bloom distribution for specific dates, supporting in-depth temporal inspection.
+
+- **Layer & Basemap Switching:** Freely toggle between overlay layers (algae mask, FAI mean, SDFI, lake outline) and switch base maps (road or satellite) to fit different visualization needs.
+
+- **Legend:** A color-coded legend explains each overlay for easy interpretation of map content.
+
+- **Point Query:** Click any point within the lake to inspect detailed bloom intensity at that location.
+
+Additional interactive controls include:
+
+- **Zoom & Pan:** Use + / – buttons or drag the map to zoom in, zoom out, and navigate the study area.
+
+- **Geometry Import:** Advanced users can import custom spatial features for targeted analysis.
+
+- **Reset & Full-Screen:** Quickly restore the default view or switch to full-screen for better visualization.
+
+- **Layer and Basemap Controls:** Switch thematic layers and base maps from the top right panel for direct visual comparison.
+
+Together, these interactive tools provide a powerful and user-friendly experience, enabling researchers, policymakers, and the public to monitor and understand cyanobacterial blooms in Lake Chaohu in real time.
 
 ### 3.1 Data Processing
 
