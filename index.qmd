@@ -303,6 +303,7 @@ var classified = s2WithAlgae.map(classifyBloom);
 Below is the full code for the interactive visualization module, implemented in Google Earth Engine. Each functional block is commented for clarity.
 
 1. Create the main UI panel and insert to left
+
 Create a fixed-width panel and insert it into the left side of the interface to hold all UI elements.
 ```js
 // 1. Create the main UI panel and insert to left
@@ -310,6 +311,7 @@ var panel = ui.Panel({style: {width: '360px'}});
 ui.root.insert(0, panel);
 ```
 2. Title of the application
+
 Add a title label to clearly show that the app monitors algal blooms in Chaohu Lake.
 ```js
 // 2. Title of the application
@@ -319,6 +321,7 @@ panel.add(ui.Label({
 }));
 ```
 3. Lake area calculation tool
+
 Provide a button to calculate and display the total water area of Chaohu Lake based on satellite data.
 ```js
 // 3. Lake area calculation tool
@@ -346,6 +349,7 @@ panel.add(lakeAreaButton);
 panel.add(areaLabel);
 ```
 4. Time slider for selecting date
+
 Add a slider so users can select different dates and view corresponding algal bloom conditions.
 ```js
 // 4. Time slider for selecting date
@@ -368,6 +372,7 @@ dateList.evaluate(function(list) {
 });
 ```
 5. Map layer management functions
+
 Define functions to clear and reload key map layers, keeping the interface organized.
 ```js
 // 5. Map layer management functions
@@ -403,6 +408,7 @@ function updateMap(date) {
 clearMap();
 ```
 6. Add legend for overlays
+
 Add a legend explaining the colors used on the map for easier interpretation of bloom and water features.
 ```js
 // 6. Add legend for overlays
@@ -420,6 +426,7 @@ legend.add(makeLegendRow('blue', 'Lake Outline'));
 Map.add(legend);
 ```
 7. Toggle VCI intensity layers
+
 Allow users to turn different bloom intensity layers on or off for customized visualization.
 ```js
 // 7. Toggle VCI intensity layers
@@ -449,6 +456,7 @@ Object.keys(vciLayers).forEach(function(layerName) {
 });
 ```
 8. Button to reset map layers
+
 Add a reset button that quickly clears all active layers for a fresh start.
 ```js
 // 8. Button to reset map layers
@@ -462,6 +470,7 @@ var resetButton = ui.Button({
 panel.add(resetButton);
 ```
 9. Algae area chart generation
+
 Provide a button to generate a daily bloom area chart, helping track bloom trends over time.
 ```js
 // 9. Algae area chart generation
@@ -493,6 +502,7 @@ panel.add(chartStatus);
 panel.add(chartContainer);
 ```
 10. Export data buttons
+
 Add buttons to export daily, monthly, or yearly bloom data for further offline analysis.
 ```js
 // 10. Export data buttons
