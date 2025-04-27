@@ -50,21 +50,7 @@ We use median composites and custom cloud masking for preprocessing. Water bodie
 
 ### Interface
 
-The interactive interface of our web application is carefully designed to serve the distinct needs of researchers, policymakers, local authorities, and residents around Chaohu Lake. Each group can easily extract actionable insights from complex remote sensing data through the following features:
-
-- **For environmental researchers:**  
-  
-  Customizable map layers (VCI_Lv2–VCI_Lv6, FAI mean, SDFI, lake outline) allow in-depth analysis of spatial distribution and severity of cyanobacterial blooms. Dynamic area charts and a date slider help explore temporal trends and detect seasonal or event-based peaks. Point query and geometry import enable targeted analysis within specific lake regions.
-
-- **For policymakers and local authorities:**  
-  
-  One-click export tools provide daily, monthly, or yearly bloom statistics for efficient data collection and reporting. Clear legends and color-coded overlays facilitate rapid interpretation of bloom severity and spatial distribution, supporting evidence-based management. Layer switching and map navigation tools make it easy to compare changes over years or across different indicators.
-
-- **For residents and the public:**  
-  
-  Intuitive controls for zooming, panning, and basemap switching ensure accessibility for all users. Simple legends and clickable locations offer immediate feedback on local bloom intensity, raising public awareness. Visualizing changes over time encourages community participation and supports grassroots environmental stewardship.
-
-In summary, our interactive platform bridges the gap between technical satellite data and practical, real-world decision-making. By combining rich geospatial information with user-friendly design, the application empowers researchers, managers, and citizens to monitor, understand, and respond to cyanobacterial blooms in Lake Chaohu.
+This web application's interactive interface is tailored for researchers, policymakers, and residents of the Chaohu Lake region. Researchers can explore customizable map layers and time-series charts to analyze bloom severity and spatiotemporal trends. Policymakers benefit from instant data export, clear overlays, and intuitive legends, making evidence-based decisions easier. Residents access user-friendly controls, legends, and point queries to understand local bloom conditions and raise awareness. Together, these interactive features ensure that all users—from experts to the general public—can easily extract actionable insights, connecting satellite data with real-world environmental management.
 
 ## The Application 
 
@@ -311,6 +297,236 @@ function classifyBloom(image) {
 }
 var classified = s2WithAlgae.map(classifyBloom);
 ```
+
+### 3.7 Interactive Visualization Module
+
+Below is the full code for the interactive visualization module, implemented in Google Earth Engine. Each functional block is commented for clarity.
+
+```js
+// 1. Create the main UI panel and insert to left
+var panel = ui.Panel({style: {width: '360px'}});
+ui.root.insert(0, panel);
+```
+
+```js
+// 2. Title of the application
+panel.add(ui.Label({
+  value: 'Chaohu Lake Algal Bloom Monitoring',
+  style: {fontSize: '22px', fontWeight: 'bold'}
+}));
+```
+
+```js
+// 3. Lake area calculation tool
+panel.add(ui.Label('Basic Information Tool:', {fontWeight: 'bold', margin: '8px 0 4px 0'}));
+
+var areaLabel = ui.Label('', {color: 'gray', fontStyle: 'italic'});
+var lakeAreaButton = ui.Button({
+  label: 'Calculate Total Lake Area (km²)',
+  style: {stretch: 'horizontal', margin: '6px 0'},
+  onClick: function() {
+    areaLabel.setValue('Calculating, please wait...');
+    var lakeArea = waterMask.multiply(ee.Image.pixelArea())
+      .reduceRegion({
+        reducer: ee.Reducer.sum(),
+        geometry: chaohu,
+        scale: 10,
+        maxPixels: 1e10
+      }).get('MNDWI');
+    ee.Number(lakeArea).divide(1e6).evaluate(function(result) {
+      areaLabel.setValue('Total lake area is approximately: ' + result.toFixed(2) + ' km²');
+    });
+  }
+});
+panel.add(lakeAreaButton);
+panel.add(areaLabel);
+```
+
+```js
+// 4. Time slider for selecting date
+var dateList = s2WithAlgae.aggregate_array('system:time_start').map(function(d) {
+  return ee.Date(d).format('YYYY-MM-dd');
+}).distinct();
+dateList.evaluate(function(list) {
+  var slider = ui.DateSlider({
+    start: ee.Date(startDate),
+    end: ee.Date(endDate),
+    period: 1,
+    style: {stretch: 'horizontal'},
+    onChange: function(range) {
+      var selectedDate = ee.Date(range.start());
+      updateMap(selectedDate);
+    }
+  });
+  panel.add(ui.Label('Select Date:'));
+  panel.add(slider);
+});
+```
+
+```js
+// 5. Map layer management functions
+function clearMap() {
+  Map.layers().reset();
+  Map.addLayer(baseImage, {
+    bands: ['B4', 'B3', 'B2'],
+    min: 0,
+    max: 3000
+  }, 'Base Image (Cloud Masked)');
+  Map.addLayer(bufferedWaterOutline, {
+    color: 'blue',
+    fillColor: '00000000',
+    width: 2
+  }, 'Chaohu Lake Outline');
+  Map.addLayer(s2WithIndices.select('FAI').mean(), {
+    min: -0.1, 
+    max: 0.1, 
+    palette: ['blue', 'white', 'yellow']
+  }, 'FAI Mean');
+  Map.addLayer(sdfi, {
+    min: 0,
+    max: 100,
+    palette: ['white', 'green', 'red']
+  }, 'SDFI');
+}
+function updateMap(date) {
+  clearMap();
+  var image = s2WithAlgae.filterDate(date, date.advance(1, 'day')).first();
+  var algae = image.select('algae');
+  Map.addLayer(algae, {min: 0, max: 1, palette: ['white', 'red']}, 'Algae Mask (' + date.format('YYYY-MM-dd').getInfo() + ')');
+}
+clearMap();
+```
+
+```js
+// 6. Add legend for overlays
+var legend = ui.Panel({style: {position: 'bottom-left', padding: '8px 15px'}});
+legend.add(ui.Label({value: 'Legend', style: {fontWeight: 'bold'}}));
+function makeLegendRow(color, name) {
+  var colorBox = ui.Label({style: {backgroundColor: color, padding: '8px'}});
+  var description = ui.Label({value: name, style: {margin: '0 0 4px 6px'}});
+  return ui.Panel([colorBox, description], ui.Panel.Layout.Flow('horizontal'));
+}
+legend.add(makeLegendRow('red', 'Algae Mask'));
+legend.add(makeLegendRow('yellow', 'FAI Mean'));
+legend.add(makeLegendRow('green', 'SDFI'));
+legend.add(makeLegendRow('blue', 'Lake Outline'));
+Map.add(legend);
+```
+
+```js
+// 7. Toggle VCI intensity layers
+panel.add(ui.Label('Select Algal Bloom Intensity Layers:', {fontWeight: 'bold'}));
+var vciLayers = {
+  'VCI_Lv2': {image: vciMean.select('VCI_Lv2'), vis: vciPalette['VCI_Lv2']},
+  'VCI_Lv3': {image: vciMean.select('VCI_Lv3'), vis: vciPalette['VCI_Lv3']},
+  'VCI_Lv4': {image: vciMean.select('VCI_Lv4'), vis: vciPalette['VCI_Lv4']},
+  'VCI_Lv5': {image: vciMean.select('VCI_Lv5'), vis: vciPalette['VCI_Lv5']},
+  'VCI_Lv6': {image: vciMean.select('VCI_Lv6'), vis: vciPalette['VCI_Lv6']}
+};
+var activeLayers = {};
+Object.keys(vciLayers).forEach(function(layerName) {
+  var checkbox = ui.Checkbox({
+    label: layerName,
+    value: false,
+    onChange: function(checked) {
+      if (checked) {
+        var lyr = Map.addLayer(vciLayers[layerName].image, vciLayers[layerName].vis, layerName);
+        activeLayers[layerName] = lyr;
+      } else {
+        Map.layers().remove(activeLayers[layerName]);
+      }
+    }
+  });
+  panel.add(checkbox);
+});
+```
+
+```js
+// 8. Button to reset map layers
+var resetButton = ui.Button({
+  label: 'Reset Map Layers',
+  style: {stretch: 'horizontal', margin: '6px 0'},
+  onClick: function() {
+    clearMap();
+  }
+});
+panel.add(resetButton);
+```
+
+```js
+// 9. Algae area chart generation
+panel.add(ui.Label('Analysis Tools:', {fontWeight: 'bold', margin: '12px 0 4px 0'}));
+var chartStatus = ui.Label('', {color: 'gray', fontStyle: 'italic'});
+var chartContainer = ui.Panel();
+var generateChartButton = ui.Button({
+  label: 'Generate Daily Algae Area Chart',
+  style: {stretch: 'horizontal', margin: '8px 0'},
+  onClick: function() {
+    chartStatus.setValue('Generating chart, please wait...');
+    chartContainer.clear();
+    var chart = ui.Chart.feature.byFeature(dailyStats, 'date', 'bloom_area_km2')
+      .setChartType('LineChart')
+      .setOptions({
+        title: 'Daily Algal Bloom Area (km²)',
+        hAxis: {title: 'Date'},
+        vAxis: {title: 'Area (km²)'},
+        lineWidth: 2,
+        pointSize: 3,
+        colors: ['#1f78b4']
+      });
+    chartContainer.add(chart);
+    chartStatus.setValue('Chart generated');
+  }
+});
+panel.add(generateChartButton);
+panel.add(chartStatus);
+panel.add(chartContainer);
+```
+
+```js
+// 10. Export data buttons
+panel.add(ui.Label('Data Export Tools:', {fontWeight: 'bold', margin: '12px 0 4px 0'}));
+var exportStatus = ui.Label('', {color: 'gray', fontStyle: 'italic'});
+panel.add(exportStatus);
+
+panel.add(ui.Button({
+  label: 'Export Daily Data',
+  onClick: function() {
+    exportStatus.setValue('Exporting daily data. Please click "Run" in the Tasks tab...');
+    Export.table.toDrive({
+      collection: dailyStats,
+      description: 'Daily_Chaohu_Bloom_Stats',
+      fileFormat: 'CSV',
+      selectors: ['date', 'year', 'month', 'bloom_area_km2', 'ratio_percent']
+    });
+  }
+}));
+panel.add(ui.Button({
+  label: 'Export Monthly Data',
+  onClick: function() {
+    exportStatus.setValue('Exporting monthly data. Please click "Run" in the Tasks tab...');
+    Export.table.toDrive({
+      collection: monthlyStats,
+      description: 'Monthly_Chaohu_Bloom_Stats',
+      fileFormat: 'CSV',
+      selectors: ['year_month', 'month', 'monthly_bloom_area_km2', 'monthly_ratio_percent', 'observation_count']
+    });
+  }
+}));
+panel.add(ui.Button({
+  label: 'Export Yearly Data',
+  onClick: function() {
+    exportStatus.setValue('Exporting yearly data. Please click "Run" in the Tasks tab...');
+    Export.table.toDrive({
+      collection: yearlyStats,
+      description: 'Yearly_Chaohu_Bloom_Stats',
+      fileFormat: 'CSV',
+      selectors: ['year', 'yearly_bloom_area_km2', 'yearly_ratio_percent', 'observation_count']
+    });
+  }
+}));
+```
+
 
 ### References
 [1]Brooks, B.W., Lazorchak, J.M., Howard, M.D., Johnson, M.V.V., Morton, S.L., Perkins, D.A., Reavie, E.D., Scott, G.I., Smith, S.A. and Steevens, J.A., 2016. Are harmful algal blooms becoming the greatest inland water quality threat to public health and aquatic ecosystems?. Environmental toxicology and chemistry, 35(1), pp.6-13.
