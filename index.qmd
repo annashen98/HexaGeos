@@ -48,7 +48,23 @@ This application uses Sentinel-2 MSI imagery from the Google Earth Engine platfo
 
 We use median composites and custom cloud masking for preprocessing. Water bodies are extracted using MNDWI, and bloom areas are identified by combining FAI and TI thresholds. We calculate bloom area statistics, classify bloom severity, and compute the Spatial Distribution Frequency Index (SDFI) for spatial analysis.
 
-### Interactive Web Map Interface
+### Interface
+
+The interactive interface of our web application is carefully designed to serve the distinct needs of researchers, policymakers, local authorities, and residents around Chaohu Lake. Each group can easily extract actionable insights from complex remote sensing data through the following features:
+
+- **For environmental researchers:**  
+  
+  Customizable map layers (VCI_Lv2–VCI_Lv6, FAI mean, SDFI, lake outline) allow in-depth analysis of spatial distribution and severity of cyanobacterial blooms. Dynamic area charts and a date slider help explore temporal trends and detect seasonal or event-based peaks. Point query and geometry import enable targeted analysis within specific lake regions.
+
+- **For policymakers and local authorities:**  
+  
+  One-click export tools provide daily, monthly, or yearly bloom statistics for efficient data collection and reporting. Clear legends and color-coded overlays facilitate rapid interpretation of bloom severity and spatial distribution, supporting evidence-based management. Layer switching and map navigation tools make it easy to compare changes over years or across different indicators.
+
+- **For residents and the public:**  
+  
+  Intuitive controls for zooming, panning, and basemap switching ensure accessibility for all users. Simple legends and clickable locations offer immediate feedback on local bloom intensity, raising public awareness. Visualizing changes over time encourages community participation and supports grassroots environmental stewardship.
+
+In summary, our interactive platform bridges the gap between technical satellite data and practical, real-world decision-making. By combining rich geospatial information with user-friendly design, the application empowers researchers, managers, and citizens to monitor, understand, and respond to cyanobacterial blooms in Lake Chaohu.
 
 ## The Application 
 
@@ -58,34 +74,6 @@ We use median composites and custom cloud masking for preprocessing. Water bodie
 
 :::
 ## How it Works 
-
-Our interactive web application offers an intuitive platform for exploring and analyzing the spatiotemporal patterns of cyanobacterial blooms in Lake Chaohu. Main features include:
-
-- **Algal Bloom Intensity Layers:** Select different severity levels (VCI_Lv2 to VCI_Lv6) to visualize spatial distribution patterns of cyanobacterial blooms for detailed hotspot analysis.
-
-- **Dynamic Area Chart:** Click "Generate Daily Algae Area Chart" to plot daily changes in bloom area and analyze temporal trends and peak periods.
-
-- **Data Export Tools:** Download daily, monthly, or yearly statistical data with one click for further analysis outside the platform.
-
-- **Date Slider:** Use the slider to visualize bloom distribution for specific dates, supporting in-depth temporal inspection.
-
-- **Layer & Basemap Switching:** Freely toggle between overlay layers (algae mask, FAI mean, SDFI, lake outline) and switch base maps (road or satellite) to fit different visualization needs.
-
-- **Legend:** A color-coded legend explains each overlay for easy interpretation of map content.
-
-- **Point Query:** Click any point within the lake to inspect detailed bloom intensity at that location.
-
-Additional interactive controls include:
-
-- **Zoom & Pan:** Use + / – buttons or drag the map to zoom in, zoom out, and navigate the study area.
-
-- **Geometry Import:** Advanced users can import custom spatial features for targeted analysis.
-
-- **Reset & Full-Screen:** Quickly restore the default view or switch to full-screen for better visualization.
-
-- **Layer and Basemap Controls:** Switch thematic layers and base maps from the top right panel for direct visual comparison.
-
-Together, these interactive tools provide a powerful and user-friendly experience, enabling researchers, policymakers, and the public to monitor and understand cyanobacterial blooms in Lake Chaohu in real time.
 
 ### 3.1 Data Processing
 
