@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.326">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>index</title>
+<title>Spatiotemporal Monitoring of Lake Cyanobacterial Blooms: A Case Study of Chaohu Lake</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -80,7 +80,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -89,13 +95,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -110,58 +145,512 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Spatiotemporal Monitoring of Lake Cyanobacterial Blooms: A Case Study of Chaohu Lake</h1>
+</div>
 
 
-<section id="casa00025-group-project-title-here" class="level1 page-columns page-full">
-<h1>CASA00025 Group Project Title Here</h1>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
 <section id="project-summary" class="level2">
 <h2 class="anchored" data-anchor-id="project-summary">Project Summary</h2>
-<p>Fill in the sections below to provide a brief summary of your project. Each section should have no more than 100 words. Do not edit any of the headings.</p>
+<p>Harmful algal blooms (HABs), particularly cyanobacterial blooms (CBs), are among the most critical environmental issues facing inland water bodies. These blooms pose significant threats to global public health and aquatic ecosystem stability. Chaohu Lake, the fifth-largest freshwater lake in China, faces severe eutrophication and frequent CBs due to agricultural runoff, industrial, and domestic pollution.</p>
+<p>Remote sensing technology enables real-time detection and long-term monitoring of CBs. This study focuses on Chaohu Lake as a case study, aiming to quantify and visualize the occurrence of CBs in the region over the past decade, providing insights into the impact of human activities on water quality and ecosystem health.</p>
 <section id="problem-statement" class="level3">
 <h3 class="anchored" data-anchor-id="problem-statement">Problem Statement</h3>
-<p>What is the problem you’re trying to address using this application?</p>
+<p>This application addresses two key research questions:</p>
+<ol type="1">
+<li><p>What is the spatial distribution of cyanobacterial blooms (CBs) in Chaohu Lake?</p></li>
+<li><p>What temporal patterns characterize the occurrence of CBs in Chaohu Lake?</p></li>
+</ol>
+<p>By leveraging remote sensing technology and indices, the application provides a cost-effective, real-time solution for quantifying and visualizing CB occurrences, enabling a deeper understanding of their spatial and temporal dynamics to inform management strategies.</p>
 </section>
 <section id="end-user" class="level3">
 <h3 class="anchored" data-anchor-id="end-user">End User</h3>
-<p>Who are you building this application for? How does it address a need this community has?</p>
+<p>This application is designed to serve environmental researchers, policymakers, local authorities, and residents in the Chaohu Lake region.</p>
+<p>For researchers, it provides real-time monitoring of cyanobacterial blooms (CBs), offering insights into their spatial distribution and temporal patterns, which are essential for scientific analysis and environmental management.</p>
+<p>For policymakers and local authorities, the tool enables data-driven decision-making to implement effective mitigation strategies, allocate resources efficiently, and establish long-term action plans to address water quality challenges.</p>
+<p>For residents, the application raises awareness about water quality issues and associated health risks, empowering communities to take measures and engage in sustainability efforts.</p>
 </section>
 <section id="data" class="level3">
 <h3 class="anchored" data-anchor-id="data">Data</h3>
-<p>What data are you using?</p>
+<p>This application uses Sentinel-2 MSI imagery from the Google Earth Engine platform. The image collection spans from 2018 to 2020 and is filtered for cloud coverage under 20%. Additionally, vegetation and water indices such as MNDWI, FAI, and TI are derived for analysis.</p>
 </section>
 <section id="methodology" class="level3">
 <h3 class="anchored" data-anchor-id="methodology">Methodology</h3>
-<p>How are you using this data to address the problem?</p>
+<p>We use median composites and custom cloud masking for preprocessing. Water bodies are extracted using MNDWI, and bloom areas are identified by combining FAI and TI thresholds. We calculate bloom area statistics, classify bloom severity, and compute the Spatial Distribution Frequency Index (SDFI) for spatial analysis.</p>
 </section>
 <section id="interface" class="level3">
 <h3 class="anchored" data-anchor-id="interface">Interface</h3>
-<p>How does your application’s interface work to address the needs of your end user?</p>
+<p>This web application’s interactive interface is tailored for researchers, policymakers, and residents of the Chaohu Lake region. Researchers can explore customizable map layers and time-series charts to analyze bloom severity and spatiotemporal trends. Policymakers benefit from instant data export, clear overlays, and intuitive legends, making evidence-based decisions easier. Residents access user-friendly controls, legends, and point queries to understand local bloom conditions and raise awareness. Together, these interactive features ensure that all users—from experts to the general public—can easily extract actionable insights, connecting satellite data with real-world environmental management.</p>
 </section>
 </section>
 <section id="the-application" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="the-application">The Application</h2>
-<p>Replace the link below with the link to your application.</p>
 <div class="column-page">
-<iframe src="https://ollielballinger.users.earthengine.app/view/turkey-earthquake" width="100%" height="700px">
+<iframe src="https://sjlin24.users.earthengine.app/view/hexageos24ucl" width="100%" height="700px">
 </iframe>
 </div>
 </section>
 <section id="how-it-works" class="level2">
 <h2 class="anchored" data-anchor-id="how-it-works">How it Works</h2>
-<p>Use this section to explain how your application works using code blocks and text explanations (no more than 500 words excluding code):</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Map</span><span class="op">.</span><span class="fu">setCenter</span>(<span class="fl">35.51898</span><span class="op">,</span> <span class="fl">33.90153</span><span class="op">,</span> <span class="dv">15</span>)<span class="op">;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">Map</span><span class="op">.</span><span class="fu">setOptions</span>(<span class="st">"satellite"</span>)<span class="op">;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> aoi <span class="op">=</span> ee<span class="op">.</span><span class="at">Geometry</span><span class="op">.</span><span class="fu">Point</span>(<span class="fl">35.51898</span><span class="op">,</span> <span class="fl">33.90153</span>)<span class="op">.</span><span class="fu">buffer</span>(<span class="dv">3000</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You can include images:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/beirut_change_2020.jpg" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Pixelwise T-Test, 2018</figcaption><p></p>
-</figure>
-</div>
-<p>and math: <span class="math display">\[ \Large t = {\frac{\overline{x_1}-\overline{x_2}} {\sqrt{\frac{s^2_1}{n_1} + \frac{s^2_2}{n_2}}}} \]</span></p>
+<section id="data-processing" class="level3">
+<h3 class="anchored" data-anchor-id="data-processing">3.1 Data Processing</h3>
+<p>In this part, the code below defines Chaohu Lake’s rectangular study area, centers the map on it, filters Sentinel-2 images within a specific date range and cloud cover threshold, and creates a composite image for analysis.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// define study area - Chaohu Lake</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> chaohu <span class="op">=</span> ee<span class="op">.</span><span class="at">Geometry</span><span class="op">.</span><span class="fu">Polygon</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  [[[<span class="fl">117.220</span><span class="op">,</span> <span class="fl">31.799</span>]<span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">117.220</span><span class="op">,</span> <span class="fl">31.387</span>]<span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">117.937</span><span class="op">,</span> <span class="fl">31.387</span>]<span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">117.937</span><span class="op">,</span> <span class="fl">31.799</span>]]])<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">// set the center</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">Map</span><span class="op">.</span><span class="fu">centerObject</span>(chaohu<span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">////////////////import data////////////////</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">// set time range</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> startDate <span class="op">=</span> <span class="st">'2018-05-01'</span><span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> endDate <span class="op">=</span> <span class="st">'2020-11-01'</span><span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">// import Sentinel-2 data and filter</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> s2 <span class="op">=</span> ee<span class="op">.</span><span class="fu">ImageCollection</span>(<span class="st">'COPERNICUS/S2'</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">filterBounds</span>(chaohu)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">filterDate</span>(startDate<span class="op">,</span> endDate)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">filter</span>(ee<span class="op">.</span><span class="at">Filter</span><span class="op">.</span><span class="fu">lt</span>(<span class="st">'CLOUDY_PIXEL_PERCENTAGE'</span><span class="op">,</span> <span class="dv">20</span>))</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> compositeImage <span class="op">=</span> s2<span class="op">.</span><span class="fu">mosaic</span>()<span class="op">;</span> <span class="co">//Synthesize images within the same time period</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="remote-sensing-indices" class="level3">
+<h3 class="anchored" data-anchor-id="remote-sensing-indices">3.2 Remote Sensing Indices</h3>
+<p>To effectively identify cyanobacterial blooms, we calculate and apply three key remote sensing indices: 1. Modified Normalized Difference Water Index (MNDWI) Used to distinguish water bodies from land. It is calculated as: <span class="math display">\[
+\text{MNDWI} = \frac{\rho_{\text{green}} - \rho_{\text{swir}}}{\rho_{\text{green}} + \rho_{\text{swir}}}
+\]</span> where <span class="math inline">\(\rho_{\text{Green}}\)</span> represents the reflectance of the green band (B3), and <span class="math inline">\(\rho_{\text{SWIR}}\)</span> epresents the reflectance of the shortwave infrared band (B11).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Calculate MNDWI</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> mndwi <span class="op">=</span> medianComposite<span class="op">.</span><span class="fu">normalizedDifference</span>([<span class="st">'B3'</span><span class="op">,</span> <span class="st">'B11'</span>])<span class="op">.</span><span class="fu">rename</span>(<span class="st">'MNDWI'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Floating Algae Index (FAI) Used to enhance the detection of floating algae by minimizing atmospheric effects. It is calculated as: <span class="math display">\[
+\text{FAI} = \rho_{\text{nir}} - \rho_{\text{nir}}'
+\]</span> where <span class="math inline">\(\rho'_{\text{NIR}}\)</span> is the baseline reflectance of the near-infrared band, calculated as: <span class="math display">\[
+\rho_{\text{nir}}' = \rho_{\text{red}} + (\rho_{\text{swir}} - \rho_{\text{red}}) \times \frac{\lambda_{\text{nir}} - \lambda_{\text{red}}}{\lambda_{\text{swir}} - \lambda_{\text{red}}}
+\]</span></li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Calculate FAI</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> nirPrime <span class="op">=</span> red<span class="op">.</span><span class="fu">add</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  swir<span class="op">.</span><span class="fu">subtract</span>(red)<span class="op">.</span><span class="fu">multiply</span>((<span class="dv">833</span> <span class="op">-</span> <span class="fl">664.5</span>) <span class="op">/</span> (<span class="fl">1613.7</span> <span class="op">-</span> <span class="fl">664.5</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> fai <span class="op">=</span> nir<span class="op">.</span><span class="fu">subtract</span>(nirPrime)<span class="op">.</span><span class="fu">rename</span>(<span class="st">'FAI'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Turbidity Index (TI) The TI is used to eliminate the influence of highly turbid water bodies on the detection of cyanobacterial blooms. It is calculated as: <span class="math display">\[
+TI = \rho_{red} - \rho_{green} - \left( \frac{\rho_{nir} - \rho_{green}}{2} \right)
+\]</span></li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Calculate TI</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> ti <span class="op">=</span> red<span class="op">.</span><span class="fu">subtract</span>(green)<span class="op">.</span><span class="fu">subtract</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  nir<span class="op">.</span><span class="fu">subtract</span>(green<span class="op">.</span><span class="fu">multiply</span>(<span class="fl">0.5</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)<span class="op">.</span><span class="fu">rename</span>(<span class="st">'TI'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Complete Index Calculation Function:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">calculateIndices</span>(image) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Normalize reflectance</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> green <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'B3'</span>)<span class="op">.</span><span class="fu">divide</span>(<span class="dv">10000</span>)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> red <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'B4'</span>)<span class="op">.</span><span class="fu">divide</span>(<span class="dv">10000</span>)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> nir <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'B8'</span>)<span class="op">.</span><span class="fu">divide</span>(<span class="dv">10000</span>)<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> swir <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'B11'</span>)<span class="op">.</span><span class="fu">divide</span>(<span class="dv">10000</span>)<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Calculate FAI</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> nirPrime <span class="op">=</span> red<span class="op">.</span><span class="fu">add</span>(swir<span class="op">.</span><span class="fu">subtract</span>(red)<span class="op">.</span><span class="fu">multiply</span>((<span class="dv">833</span> <span class="op">-</span> <span class="fl">664.5</span>) <span class="op">/</span> (<span class="fl">1613.7</span> <span class="op">-</span> <span class="fl">664.5</span>)))<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> fai <span class="op">=</span> nir<span class="op">.</span><span class="fu">subtract</span>(nirPrime)<span class="op">.</span><span class="fu">rename</span>(<span class="st">'FAI'</span>)<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Calculate TI</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> ti <span class="op">=</span> red<span class="op">.</span><span class="fu">subtract</span>(green)<span class="op">.</span><span class="fu">subtract</span>(nir<span class="op">.</span><span class="fu">subtract</span>(green<span class="op">.</span><span class="fu">multiply</span>(<span class="fl">0.5</span>)))<span class="op">.</span><span class="fu">rename</span>(<span class="st">'TI'</span>)<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Add bands and apply water mask</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> image<span class="op">.</span><span class="fu">addBands</span>(fai)<span class="op">.</span><span class="fu">addBands</span>(ti)<span class="op">.</span><span class="fu">updateMask</span>(waterMaskImage)<span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="cloud-masking" class="level3">
+<h3 class="anchored" data-anchor-id="cloud-masking">3.3 Cloud Masking</h3>
+<p>Clouds have reflectance characteristics in the visible to near-infrared bands that are similar to cyanobacterial blooms, which can result in false positives with high FAI values. Therefore, cloud removal is necessary.</p>
+<p>Cloud masking uses two specialized spectral indices: <span class="math inline">\(I_1 = \frac{B1 - B7}{B1 + B7}\)</span>，A value greater than 0.08 typically indicates thin clouds. <span class="math inline">\(I_2 = \frac{B5 - B4}{B5 + B7}\)</span>，When <span class="math inline">\(I_2\)</span> is less than 0.1 and <span class="math inline">\(I_1\)</span> is relatively high, it helps identify thin cloud features.</p>
+<p>First, thick cloud areas are detected using the characteristic that the reflectance of the red band (B4) is greater than 0.2.<br>
+Second, thin clouds and shadows are identified using the aerosol band (B1) and red-edge band 3 (B7) index (I1), and the red-edge band 1 (B5) and red band index (I2), by applying the conditions I1 &gt; 0.08 and I2 &lt; 0.1 to exclude these pixels.<br>
+Finally, the thick and thin cloud detection results are combined to generate a comprehensive cloud mask, retaining only cloud-free pixels for subsequent analysis.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">maskCloud</span>(image) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Normalize reflectance</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> b1 <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'B1'</span>)<span class="op">.</span><span class="fu">divide</span>(<span class="dv">10000</span>)<span class="op">;</span> <span class="co">// Aerosol band (442 nm)</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> b4 <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'B4'</span>)<span class="op">.</span><span class="fu">divide</span>(<span class="dv">10000</span>)<span class="op">;</span> <span class="co">// Red band (664 nm)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> b5 <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'B5'</span>)<span class="op">.</span><span class="fu">divide</span>(<span class="dv">10000</span>)<span class="op">;</span> <span class="co">// Red-edge 1 band (704 nm)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> b7 <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'B7'</span>)<span class="op">.</span><span class="fu">divide</span>(<span class="dv">10000</span>)<span class="op">;</span> <span class="co">// Red-edge 3 band (782 nm)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Basic cloud mask (B4 &gt; 0.2)</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> cloudMask <span class="op">=</span> b4<span class="op">.</span><span class="fu">lt</span>(<span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Thin cloud/shadow removal</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> I1 <span class="op">=</span> b1<span class="op">.</span><span class="fu">subtract</span>(b7)<span class="op">.</span><span class="fu">divide</span>(b1<span class="op">.</span><span class="fu">add</span>(b7))<span class="op">;</span> <span class="co">// (B1-B7)/(B1+B7)</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> I2 <span class="op">=</span> b5<span class="op">.</span><span class="fu">subtract</span>(b4)<span class="op">.</span><span class="fu">divide</span>(b5<span class="op">.</span><span class="fu">add</span>(b7))<span class="op">;</span> <span class="co">// (B5-B4)/(B5+B7)</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> thinCloudMask <span class="op">=</span> I1<span class="op">.</span><span class="fu">gt</span>(<span class="fl">0.08</span>)<span class="op">.</span><span class="fu">and</span>(I2<span class="op">.</span><span class="fu">lt</span>(<span class="fl">0.1</span>))<span class="op">.</span><span class="fu">not</span>()<span class="op">;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Combined cloud mask</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> image<span class="op">.</span><span class="fu">updateMask</span>(cloudMask<span class="op">.</span><span class="fu">and</span>(thinCloudMask))<span class="op">;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="high-turbidity-water-mask" class="level3">
+<h3 class="anchored" data-anchor-id="high-turbidity-water-mask">3.4 High-Turbidity Water Mask</h3>
+<p>High-turbidity water bodies (e.g., those with large amounts of sediment or suspended matter) have optical characteristics similar to cyanobacterial blooms, potentially leading to false positives.<br>
+To eliminate the influence of high-turbidity waters, we apply a mask based on the Turbidity Index (TI).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Turbidity mask (TI &gt; 0)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> ti <span class="op">=</span> red<span class="op">.</span><span class="fu">subtract</span>(green)<span class="op">.</span><span class="fu">subtract</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    nir<span class="op">.</span><span class="fu">subtract</span>(green)<span class="op">.</span><span class="fu">multiply</span>(<span class="fl">0.5</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  )<span class="op">.</span><span class="fu">rename</span>(<span class="st">'TI'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We use TI &gt; 0 as one of the criteria for distinguishing cyanobacterial blooms, helping to filter out turbid waters not caused by algae. The complete masking process is as follows:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Set MNDWI threshold to generate a water mask</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> waterMask <span class="op">=</span> mndwi<span class="op">.</span><span class="fu">gt</span>(<span class="fl">0.1</span>)<span class="op">.</span><span class="fu">selfMask</span>()<span class="op">;</span> <span class="co">// MNDWI &gt; 0.1 indicates water</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Convert water mask to vector</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> waterVector <span class="op">=</span> waterMask<span class="op">.</span><span class="fu">clip</span>(chaohu)<span class="op">.</span><span class="fu">reduceToVectors</span>({</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">geometryType</span><span class="op">:</span> <span class="st">'polygon'</span><span class="op">,</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">reducer</span><span class="op">:</span> ee<span class="op">.</span><span class="at">Reducer</span><span class="op">.</span><span class="fu">countEvery</span>()<span class="op">,</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">scale</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">maxPixels</span><span class="op">:</span> <span class="fl">10e6</span><span class="op">,</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bestEffort</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">// Filter out water bodies smaller than the threshold (in square meters)</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> minArea <span class="op">=</span> <span class="dv">1000000</span><span class="op">;</span> <span class="co">// Keep water bodies larger than 1,000,000 m²</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> filteredWater <span class="op">=</span> waterVector<span class="op">.</span><span class="fu">filter</span>(ee<span class="op">.</span><span class="at">Filter</span><span class="op">.</span><span class="fu">gte</span>(<span class="st">'count'</span><span class="op">,</span> minArea))<span class="op">;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">// Extract water body boundaries and buffer inward by 20 meters to eliminate edge effects</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> bufferedWaterOutline <span class="op">=</span> filteredWater<span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span>(feature) {</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> feature<span class="op">.</span><span class="fu">buffer</span>(<span class="op">-</span><span class="dv">20</span>)<span class="op">;</span> <span class="co">// Inward buffer of 20 meters</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">// Create a water mask image for subsequent processing</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> waterMaskImage <span class="op">=</span> ee<span class="op">.</span><span class="fu">Image</span>()<span class="op">.</span><span class="fu">byte</span>()<span class="op">.</span><span class="fu">paint</span>({</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="dt">featureCollection</span><span class="op">:</span> filteredWater<span class="op">,</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="dt">color</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>})<span class="op">.</span><span class="fu">clip</span>(chaohu)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Through this series of masking operations, we effectively remove clouds, thin clouds, shadows, and highly turbid waters, thereby improving the accuracy of cyanobacterial bloom detection. Specifically, a pixel is marked as a cyanobacterial bloom if it simultaneously satisfies FAI &gt; -0.004 and TI ≤ 0:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">detectAlgae</span>(image) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Get FAI and TI bands</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> fai <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'FAI'</span>)<span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> ti <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'TI'</span>)<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Cyanobacterial bloom condition: FAI &gt; -0.004 and TI ≤ 0</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> algaeMask <span class="op">=</span> fai<span class="op">.</span><span class="fu">gt</span>(<span class="op">-</span><span class="fl">0.004</span>)<span class="op">.</span><span class="fu">and</span>(ti<span class="op">.</span><span class="fu">lte</span>(<span class="dv">0</span>))<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> image<span class="op">.</span><span class="fu">addBands</span>(algaeMask<span class="op">.</span><span class="fu">rename</span>(<span class="st">'algae'</span>))<span class="op">;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> s2WithAlgae <span class="op">=</span> s2WithIndices<span class="op">.</span><span class="fu">map</span>(detectAlgae)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="temporal-and-spatial-analysis-sdfi" class="level3">
+<h3 class="anchored" data-anchor-id="temporal-and-spatial-analysis-sdfi">3.5 Temporal and Spatial Analysis (SDFI)</h3>
+<p>We perform temporal analysis based on daily bloom area calculations.<br>
+The time series charts help us analyze seasonal patterns of blooms (e.g., frequent occurrences in summer) and interannual trends (e.g., effects of management interventions).</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Calculate daily cyanobacterial bloom area</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">calculateDailyBloomArea</span>(image) {</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> bloom <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'algae'</span>)<span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> area <span class="op">=</span> bloom<span class="op">.</span><span class="fu">multiply</span>(ee<span class="op">.</span><span class="at">Image</span><span class="op">.</span><span class="fu">pixelArea</span>())<span class="op">.</span><span class="fu">rename</span>(<span class="st">'bloom_area'</span>)<span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> date <span class="op">=</span> image<span class="op">.</span><span class="fu">date</span>()<span class="op">.</span><span class="fu">format</span>(<span class="st">'YYYY-MM-dd'</span>)<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> ee<span class="op">.</span><span class="fu">Feature</span>(<span class="kw">null</span><span class="op">,</span> {</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'date'</span><span class="op">:</span> date<span class="op">,</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bloom_area'</span><span class="op">:</span> area<span class="op">,</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'system:time_start'</span><span class="op">:</span> image<span class="op">.</span><span class="fu">get</span>(<span class="st">'system:time_start'</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> dailyStats <span class="op">=</span> s2WithAlgae<span class="op">.</span><span class="fu">map</span>(calculateDailyBloomArea)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To quantify the spatiotemporal dynamics of cyanobacterial blooms, we introduce the Spatial Distribution Frequency Index (SDFI) for spatial analysis: <span class="math display">\[
+\text{SDFI} = \frac{\sum_{i=1}^{n} R_{i,\text{bloom}}}{\sum_{i=1}^{n} R_{i,\text{bloom}} + \sum_{i=1}^{n} R_{i,\text{water}}} \times 100\%
+\]</span> SDFI measures the frequency of cyanobacterial blooms at each geographic location. It describes the percentage of observations during the monitoring period in which a pixel was identified as having a bloom, reflecting the bloom-prone nature of the location.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Calculate SDFI</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> bloomCollection <span class="op">=</span> s2WithAlgae<span class="op">.</span><span class="fu">select</span>(<span class="st">'algae'</span>)<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> bloomSum <span class="op">=</span> bloomCollection<span class="op">.</span><span class="fu">sum</span>()<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> validCount <span class="op">=</span> bloomCollection<span class="op">.</span><span class="fu">count</span>()<span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> sdfi <span class="op">=</span> bloomSum<span class="op">.</span><span class="fu">divide</span>(validCount)<span class="op">.</span><span class="fu">multiply</span>(<span class="dv">100</span>)<span class="op">.</span><span class="fu">rename</span>(<span class="st">'SDFI'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Based on the SDFI results, we can identify high-frequency bloom areas and prioritize them for strengthened management efforts.</p>
+</section>
+<section id="bloom-classification" class="level3">
+<h3 class="anchored" data-anchor-id="bloom-classification">3.6 Bloom Classification</h3>
+<p>Based on FAI values and red band reflectance, we established a cyanobacterial bloom classification system that divides blooms into five levels (VCI_Lv2 to VCI_Lv6), quantifying algal aggregation density and ecological risk.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">classifyBloom</span>(image) {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> fai <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'FAI'</span>)<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> red <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'B4'</span>)<span class="op">.</span><span class="fu">divide</span>(<span class="dv">10000</span>)<span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Classification criteria</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> lv2 <span class="op">=</span> fai<span class="op">.</span><span class="fu">gte</span>(<span class="op">-</span><span class="fl">0.004</span>)<span class="op">.</span><span class="fu">and</span>(fai<span class="op">.</span><span class="fu">lt</span>(<span class="fl">0.1</span>))<span class="op">;</span>    </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> lv3 <span class="op">=</span> fai<span class="op">.</span><span class="fu">gte</span>(<span class="fl">0.1</span>)<span class="op">.</span><span class="fu">and</span>(fai<span class="op">.</span><span class="fu">lt</span>(<span class="fl">0.15</span>))<span class="op">;</span>      </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> lv4 <span class="op">=</span> fai<span class="op">.</span><span class="fu">gte</span>(<span class="fl">0.15</span>)<span class="op">.</span><span class="fu">and</span>(fai<span class="op">.</span><span class="fu">lt</span>(<span class="fl">0.2</span>))<span class="op">;</span>      </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> lv5 <span class="op">=</span> fai<span class="op">.</span><span class="fu">gte</span>(<span class="fl">0.2</span>)<span class="op">.</span><span class="fu">and</span>(red<span class="op">.</span><span class="fu">lt</span>(<span class="fl">0.07</span>))<span class="op">;</span>      </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> lv6 <span class="op">=</span> fai<span class="op">.</span><span class="fu">gte</span>(<span class="fl">0.2</span>)<span class="op">.</span><span class="fu">and</span>(red<span class="op">.</span><span class="fu">gte</span>(<span class="fl">0.07</span>))<span class="op">;</span>     </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> image</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">addBands</span>(lv2<span class="op">.</span><span class="fu">rename</span>(<span class="st">'VCI_Lv2'</span>))</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">addBands</span>(lv3<span class="op">.</span><span class="fu">rename</span>(<span class="st">'VCI_Lv3'</span>))</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">addBands</span>(lv4<span class="op">.</span><span class="fu">rename</span>(<span class="st">'VCI_Lv4'</span>))</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">addBands</span>(lv5<span class="op">.</span><span class="fu">rename</span>(<span class="st">'VCI_Lv5'</span>))</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">addBands</span>(lv6<span class="op">.</span><span class="fu">rename</span>(<span class="st">'VCI_Lv6'</span>))<span class="op">;</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> classified <span class="op">=</span> s2WithAlgae<span class="op">.</span><span class="fu">map</span>(classifyBloom)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="interactive-visualization-module" class="level3">
+<h3 class="anchored" data-anchor-id="interactive-visualization-module">3.7 Interactive Visualization Module</h3>
+<p>Below is the full code for the interactive visualization module, implemented in Google Earth Engine. Each functional block is commented for clarity.</p>
+<ol type="1">
+<li>Create the main UI panel and insert to left</li>
+</ol>
+<p>Create a fixed-width panel and insert it into the left side of the interface to hold all UI elements.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 1. Create the main UI panel and insert to left</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> panel <span class="op">=</span> ui<span class="op">.</span><span class="fu">Panel</span>({<span class="dt">style</span><span class="op">:</span> {<span class="dt">width</span><span class="op">:</span> <span class="st">'360px'</span>}})<span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ui<span class="op">.</span><span class="at">root</span><span class="op">.</span><span class="fu">insert</span>(<span class="dv">0</span><span class="op">,</span> panel)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Title of the application</li>
+</ol>
+<p>Add a title label to clearly show that the app monitors algal blooms in Chaohu Lake.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 2. Title of the application</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(ui<span class="op">.</span><span class="fu">Label</span>({</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="st">'Chaohu Lake Algal Bloom Monitoring'</span><span class="op">,</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontSize</span><span class="op">:</span> <span class="st">'22px'</span><span class="op">,</span> <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">'bold'</span>}</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>}))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Lake area calculation tool</li>
+</ol>
+<p>Provide a button to calculate and display the total water area of Chaohu Lake based on satellite data.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 3. Lake area calculation tool</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(ui<span class="op">.</span><span class="fu">Label</span>(<span class="st">'Basic Information Tool:'</span><span class="op">,</span> {<span class="dt">fontWeight</span><span class="op">:</span> <span class="st">'bold'</span><span class="op">,</span> <span class="dt">margin</span><span class="op">:</span> <span class="st">'8px 0 4px 0'</span>}))<span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> areaLabel <span class="op">=</span> ui<span class="op">.</span><span class="fu">Label</span>(<span class="st">''</span><span class="op">,</span> {<span class="dt">color</span><span class="op">:</span> <span class="st">'gray'</span><span class="op">,</span> <span class="dt">fontStyle</span><span class="op">:</span> <span class="st">'italic'</span>})<span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> lakeAreaButton <span class="op">=</span> ui<span class="op">.</span><span class="fu">Button</span>({</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">'Calculate Total Lake Area (km²)'</span><span class="op">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">stretch</span><span class="op">:</span> <span class="st">'horizontal'</span><span class="op">,</span> <span class="dt">margin</span><span class="op">:</span> <span class="st">'6px 0'</span>}<span class="op">,</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">onClick</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    areaLabel<span class="op">.</span><span class="fu">setValue</span>(<span class="st">'Calculating, please wait...'</span>)<span class="op">;</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> lakeArea <span class="op">=</span> waterMask<span class="op">.</span><span class="fu">multiply</span>(ee<span class="op">.</span><span class="at">Image</span><span class="op">.</span><span class="fu">pixelArea</span>())</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">reduceRegion</span>({</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">reducer</span><span class="op">:</span> ee<span class="op">.</span><span class="at">Reducer</span><span class="op">.</span><span class="fu">sum</span>()<span class="op">,</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">geometry</span><span class="op">:</span> chaohu<span class="op">,</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">scale</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">maxPixels</span><span class="op">:</span> <span class="fl">1e10</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      })<span class="op">.</span><span class="fu">get</span>(<span class="st">'MNDWI'</span>)<span class="op">;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    ee<span class="op">.</span><span class="fu">Number</span>(lakeArea)<span class="op">.</span><span class="fu">divide</span>(<span class="fl">1e6</span>)<span class="op">.</span><span class="fu">evaluate</span>(<span class="kw">function</span>(result) {</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>      areaLabel<span class="op">.</span><span class="fu">setValue</span>(<span class="st">'Total lake area is approximately: '</span> <span class="op">+</span> result<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>) <span class="op">+</span> <span class="st">' km²'</span>)<span class="op">;</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(lakeAreaButton)<span class="op">;</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(areaLabel)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Time slider for selecting date</li>
+</ol>
+<p>Add a slider so users can select different dates and view corresponding algal bloom conditions.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 4. Time slider for selecting date</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> dateList <span class="op">=</span> s2WithAlgae<span class="op">.</span><span class="fu">aggregate_array</span>(<span class="st">'system:time_start'</span>)<span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span>(d) {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> ee<span class="op">.</span><span class="fu">Date</span>(d)<span class="op">.</span><span class="fu">format</span>(<span class="st">'YYYY-MM-dd'</span>)<span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">.</span><span class="fu">distinct</span>()<span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>dateList<span class="op">.</span><span class="fu">evaluate</span>(<span class="kw">function</span>(list) {</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> slider <span class="op">=</span> ui<span class="op">.</span><span class="fu">DateSlider</span>({</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">start</span><span class="op">:</span> ee<span class="op">.</span><span class="fu">Date</span>(startDate)<span class="op">,</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">end</span><span class="op">:</span> ee<span class="op">.</span><span class="fu">Date</span>(endDate)<span class="op">,</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">period</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">style</span><span class="op">:</span> {<span class="dt">stretch</span><span class="op">:</span> <span class="st">'horizontal'</span>}<span class="op">,</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">onChange</span><span class="op">:</span> <span class="kw">function</span>(range) {</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>      <span class="kw">var</span> selectedDate <span class="op">=</span> ee<span class="op">.</span><span class="fu">Date</span>(range<span class="op">.</span><span class="fu">start</span>())<span class="op">;</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">updateMap</span>(selectedDate)<span class="op">;</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  panel<span class="op">.</span><span class="fu">add</span>(ui<span class="op">.</span><span class="fu">Label</span>(<span class="st">'Select Date:'</span>))<span class="op">;</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  panel<span class="op">.</span><span class="fu">add</span>(slider)<span class="op">;</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Map layer management functions</li>
+</ol>
+<p>Define functions to clear and reload key map layers, keeping the interface organized.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 5. Map layer management functions</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">clearMap</span>() {</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">Map</span><span class="op">.</span><span class="fu">layers</span>()<span class="op">.</span><span class="fu">reset</span>()<span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">Map</span><span class="op">.</span><span class="fu">addLayer</span>(baseImage<span class="op">,</span> {</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bands</span><span class="op">:</span> [<span class="st">'B4'</span><span class="op">,</span> <span class="st">'B3'</span><span class="op">,</span> <span class="st">'B2'</span>]<span class="op">,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">min</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">max</span><span class="op">:</span> <span class="dv">3000</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> <span class="st">'Base Image (Cloud Masked)'</span>)<span class="op">;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">Map</span><span class="op">.</span><span class="fu">addLayer</span>(bufferedWaterOutline<span class="op">,</span> {</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">color</span><span class="op">:</span> <span class="st">'blue'</span><span class="op">,</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fillColor</span><span class="op">:</span> <span class="st">'00000000'</span><span class="op">,</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">width</span><span class="op">:</span> <span class="dv">2</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> <span class="st">'Chaohu Lake Outline'</span>)<span class="op">;</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="bu">Map</span><span class="op">.</span><span class="fu">addLayer</span>(s2WithIndices<span class="op">.</span><span class="fu">select</span>(<span class="st">'FAI'</span>)<span class="op">.</span><span class="fu">mean</span>()<span class="op">,</span> {</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">min</span><span class="op">:</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">,</span> </span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">max</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> </span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">palette</span><span class="op">:</span> [<span class="st">'blue'</span><span class="op">,</span> <span class="st">'white'</span><span class="op">,</span> <span class="st">'yellow'</span>]</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> <span class="st">'FAI Mean'</span>)<span class="op">;</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  <span class="bu">Map</span><span class="op">.</span><span class="fu">addLayer</span>(sdfi<span class="op">,</span> {</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">min</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">max</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">palette</span><span class="op">:</span> [<span class="st">'white'</span><span class="op">,</span> <span class="st">'green'</span><span class="op">,</span> <span class="st">'red'</span>]</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> <span class="st">'SDFI'</span>)<span class="op">;</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">updateMap</span>(date) {</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clearMap</span>()<span class="op">;</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> image <span class="op">=</span> s2WithAlgae<span class="op">.</span><span class="fu">filterDate</span>(date<span class="op">,</span> date<span class="op">.</span><span class="fu">advance</span>(<span class="dv">1</span><span class="op">,</span> <span class="st">'day'</span>))<span class="op">.</span><span class="fu">first</span>()<span class="op">;</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> algae <span class="op">=</span> image<span class="op">.</span><span class="fu">select</span>(<span class="st">'algae'</span>)<span class="op">;</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>  <span class="bu">Map</span><span class="op">.</span><span class="fu">addLayer</span>(algae<span class="op">,</span> {<span class="dt">min</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">palette</span><span class="op">:</span> [<span class="st">'white'</span><span class="op">,</span> <span class="st">'red'</span>]}<span class="op">,</span> <span class="st">'Algae Mask ('</span> <span class="op">+</span> date<span class="op">.</span><span class="fu">format</span>(<span class="st">'YYYY-MM-dd'</span>)<span class="op">.</span><span class="fu">getInfo</span>() <span class="op">+</span> <span class="st">')'</span>)<span class="op">;</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="fu">clearMap</span>()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="6" type="1">
+<li>Add legend for overlays</li>
+</ol>
+<p>Add a legend explaining the colors used on the map for easier interpretation of bloom and water features.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 6. Add legend for overlays</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> legend <span class="op">=</span> ui<span class="op">.</span><span class="fu">Panel</span>({<span class="dt">style</span><span class="op">:</span> {<span class="dt">position</span><span class="op">:</span> <span class="st">'bottom-left'</span><span class="op">,</span> <span class="dt">padding</span><span class="op">:</span> <span class="st">'8px 15px'</span>}})<span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>legend<span class="op">.</span><span class="fu">add</span>(ui<span class="op">.</span><span class="fu">Label</span>({<span class="dt">value</span><span class="op">:</span> <span class="st">'Legend'</span><span class="op">,</span> <span class="dt">style</span><span class="op">:</span> {<span class="dt">fontWeight</span><span class="op">:</span> <span class="st">'bold'</span>}}))<span class="op">;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">makeLegendRow</span>(color<span class="op">,</span> name) {</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> colorBox <span class="op">=</span> ui<span class="op">.</span><span class="fu">Label</span>({<span class="dt">style</span><span class="op">:</span> {<span class="dt">backgroundColor</span><span class="op">:</span> color<span class="op">,</span> <span class="dt">padding</span><span class="op">:</span> <span class="st">'8px'</span>}})<span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> description <span class="op">=</span> ui<span class="op">.</span><span class="fu">Label</span>({<span class="dt">value</span><span class="op">:</span> name<span class="op">,</span> <span class="dt">style</span><span class="op">:</span> {<span class="dt">margin</span><span class="op">:</span> <span class="st">'0 0 4px 6px'</span>}})<span class="op">;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> ui<span class="op">.</span><span class="fu">Panel</span>([colorBox<span class="op">,</span> description]<span class="op">,</span> ui<span class="op">.</span><span class="at">Panel</span><span class="op">.</span><span class="at">Layout</span><span class="op">.</span><span class="fu">Flow</span>(<span class="st">'horizontal'</span>))<span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>legend<span class="op">.</span><span class="fu">add</span>(<span class="fu">makeLegendRow</span>(<span class="st">'red'</span><span class="op">,</span> <span class="st">'Algae Mask'</span>))<span class="op">;</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>legend<span class="op">.</span><span class="fu">add</span>(<span class="fu">makeLegendRow</span>(<span class="st">'yellow'</span><span class="op">,</span> <span class="st">'FAI Mean'</span>))<span class="op">;</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>legend<span class="op">.</span><span class="fu">add</span>(<span class="fu">makeLegendRow</span>(<span class="st">'green'</span><span class="op">,</span> <span class="st">'SDFI'</span>))<span class="op">;</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>legend<span class="op">.</span><span class="fu">add</span>(<span class="fu">makeLegendRow</span>(<span class="st">'blue'</span><span class="op">,</span> <span class="st">'Lake Outline'</span>))<span class="op">;</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="bu">Map</span><span class="op">.</span><span class="fu">add</span>(legend)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="7" type="1">
+<li>Toggle VCI intensity layers</li>
+</ol>
+<p>Allow users to turn different bloom intensity layers on or off for customized visualization.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 7. Toggle VCI intensity layers</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(ui<span class="op">.</span><span class="fu">Label</span>(<span class="st">'Select Algal Bloom Intensity Layers:'</span><span class="op">,</span> {<span class="dt">fontWeight</span><span class="op">:</span> <span class="st">'bold'</span>}))<span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> vciLayers <span class="op">=</span> {</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'VCI_Lv2'</span><span class="op">:</span> {<span class="dt">image</span><span class="op">:</span> vciMean<span class="op">.</span><span class="fu">select</span>(<span class="st">'VCI_Lv2'</span>)<span class="op">,</span> <span class="dt">vis</span><span class="op">:</span> vciPalette[<span class="st">'VCI_Lv2'</span>]}<span class="op">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'VCI_Lv3'</span><span class="op">:</span> {<span class="dt">image</span><span class="op">:</span> vciMean<span class="op">.</span><span class="fu">select</span>(<span class="st">'VCI_Lv3'</span>)<span class="op">,</span> <span class="dt">vis</span><span class="op">:</span> vciPalette[<span class="st">'VCI_Lv3'</span>]}<span class="op">,</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'VCI_Lv4'</span><span class="op">:</span> {<span class="dt">image</span><span class="op">:</span> vciMean<span class="op">.</span><span class="fu">select</span>(<span class="st">'VCI_Lv4'</span>)<span class="op">,</span> <span class="dt">vis</span><span class="op">:</span> vciPalette[<span class="st">'VCI_Lv4'</span>]}<span class="op">,</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">'VCI_Lv5'</span><span class="op">:</span> {<span class="dt">image</span><span class="op">:</span> vciMean<span class="op">.</span><span class="fu">select</span>(<span class="st">'VCI_Lv5'</span>)<span class="op">,</span> <span class="dt">vis</span><span class="op">:</span> vciPalette[<span class="st">'VCI_Lv5'</span>]}<span class="op">,</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">'VCI_Lv6'</span><span class="op">:</span> {<span class="dt">image</span><span class="op">:</span> vciMean<span class="op">.</span><span class="fu">select</span>(<span class="st">'VCI_Lv6'</span>)<span class="op">,</span> <span class="dt">vis</span><span class="op">:</span> vciPalette[<span class="st">'VCI_Lv6'</span>]}</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> activeLayers <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="bu">Object</span><span class="op">.</span><span class="fu">keys</span>(vciLayers)<span class="op">.</span><span class="fu">forEach</span>(<span class="kw">function</span>(layerName) {</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> checkbox <span class="op">=</span> ui<span class="op">.</span><span class="fu">Checkbox</span>({</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">label</span><span class="op">:</span> layerName<span class="op">,</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">value</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">onChange</span><span class="op">:</span> <span class="kw">function</span>(checked) {</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (checked) {</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">var</span> lyr <span class="op">=</span> <span class="bu">Map</span><span class="op">.</span><span class="fu">addLayer</span>(vciLayers[layerName]<span class="op">.</span><span class="at">image</span><span class="op">,</span> vciLayers[layerName]<span class="op">.</span><span class="at">vis</span><span class="op">,</span> layerName)<span class="op">;</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>        activeLayers[layerName] <span class="op">=</span> lyr<span class="op">;</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Map</span><span class="op">.</span><span class="fu">layers</span>()<span class="op">.</span><span class="fu">remove</span>(activeLayers[layerName])<span class="op">;</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  panel<span class="op">.</span><span class="fu">add</span>(checkbox)<span class="op">;</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="8" type="1">
+<li>Button to reset map layers</li>
+</ol>
+<p>Add a reset button that quickly clears all active layers for a fresh start.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 8. Button to reset map layers</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> resetButton <span class="op">=</span> ui<span class="op">.</span><span class="fu">Button</span>({</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">'Reset Map Layers'</span><span class="op">,</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">stretch</span><span class="op">:</span> <span class="st">'horizontal'</span><span class="op">,</span> <span class="dt">margin</span><span class="op">:</span> <span class="st">'6px 0'</span>}<span class="op">,</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">onClick</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">clearMap</span>()<span class="op">;</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(resetButton)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="9" type="1">
+<li>Algae area chart generation</li>
+</ol>
+<p>Provide a button to generate a daily bloom area chart, helping track bloom trends over time.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 9. Algae area chart generation</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(ui<span class="op">.</span><span class="fu">Label</span>(<span class="st">'Analysis Tools:'</span><span class="op">,</span> {<span class="dt">fontWeight</span><span class="op">:</span> <span class="st">'bold'</span><span class="op">,</span> <span class="dt">margin</span><span class="op">:</span> <span class="st">'12px 0 4px 0'</span>}))<span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> chartStatus <span class="op">=</span> ui<span class="op">.</span><span class="fu">Label</span>(<span class="st">''</span><span class="op">,</span> {<span class="dt">color</span><span class="op">:</span> <span class="st">'gray'</span><span class="op">,</span> <span class="dt">fontStyle</span><span class="op">:</span> <span class="st">'italic'</span>})<span class="op">;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> chartContainer <span class="op">=</span> ui<span class="op">.</span><span class="fu">Panel</span>()<span class="op">;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> generateChartButton <span class="op">=</span> ui<span class="op">.</span><span class="fu">Button</span>({</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">'Generate Daily Algae Area Chart'</span><span class="op">,</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">stretch</span><span class="op">:</span> <span class="st">'horizontal'</span><span class="op">,</span> <span class="dt">margin</span><span class="op">:</span> <span class="st">'8px 0'</span>}<span class="op">,</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">onClick</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    chartStatus<span class="op">.</span><span class="fu">setValue</span>(<span class="st">'Generating chart, please wait...'</span>)<span class="op">;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    chartContainer<span class="op">.</span><span class="fu">clear</span>()<span class="op">;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> chart <span class="op">=</span> ui<span class="op">.</span><span class="at">Chart</span><span class="op">.</span><span class="at">feature</span><span class="op">.</span><span class="fu">byFeature</span>(dailyStats<span class="op">,</span> <span class="st">'date'</span><span class="op">,</span> <span class="st">'bloom_area_km2'</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">setChartType</span>(<span class="st">'LineChart'</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">setOptions</span>({</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">title</span><span class="op">:</span> <span class="st">'Daily Algal Bloom Area (km²)'</span><span class="op">,</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">hAxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'Date'</span>}<span class="op">,</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">vAxis</span><span class="op">:</span> {<span class="dt">title</span><span class="op">:</span> <span class="st">'Area (km²)'</span>}<span class="op">,</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        <span class="dt">lineWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">pointSize</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">colors</span><span class="op">:</span> [<span class="st">'#1f78b4'</span>]</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>      })<span class="op">;</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    chartContainer<span class="op">.</span><span class="fu">add</span>(chart)<span class="op">;</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    chartStatus<span class="op">.</span><span class="fu">setValue</span>(<span class="st">'Chart generated'</span>)<span class="op">;</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(generateChartButton)<span class="op">;</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(chartStatus)<span class="op">;</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(chartContainer)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="10" type="1">
+<li>Export data buttons</li>
+</ol>
+<p>Add buttons to export daily, monthly, or yearly bloom data for further offline analysis.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 10. Export data buttons</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(ui<span class="op">.</span><span class="fu">Label</span>(<span class="st">'Data Export Tools:'</span><span class="op">,</span> {<span class="dt">fontWeight</span><span class="op">:</span> <span class="st">'bold'</span><span class="op">,</span> <span class="dt">margin</span><span class="op">:</span> <span class="st">'12px 0 4px 0'</span>}))<span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> exportStatus <span class="op">=</span> ui<span class="op">.</span><span class="fu">Label</span>(<span class="st">''</span><span class="op">,</span> {<span class="dt">color</span><span class="op">:</span> <span class="st">'gray'</span><span class="op">,</span> <span class="dt">fontStyle</span><span class="op">:</span> <span class="st">'italic'</span>})<span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(exportStatus)<span class="op">;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(ui<span class="op">.</span><span class="fu">Button</span>({</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">'Export Daily Data'</span><span class="op">,</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">onClick</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    exportStatus<span class="op">.</span><span class="fu">setValue</span>(<span class="st">'Exporting daily data. Please click "Run" in the Tasks tab...'</span>)<span class="op">;</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    Export<span class="op">.</span><span class="at">table</span><span class="op">.</span><span class="fu">toDrive</span>({</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">collection</span><span class="op">:</span> dailyStats<span class="op">,</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">description</span><span class="op">:</span> <span class="st">'Daily_Chaohu_Bloom_Stats'</span><span class="op">,</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">fileFormat</span><span class="op">:</span> <span class="st">'CSV'</span><span class="op">,</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">selectors</span><span class="op">:</span> [<span class="st">'date'</span><span class="op">,</span> <span class="st">'year'</span><span class="op">,</span> <span class="st">'month'</span><span class="op">,</span> <span class="st">'bloom_area_km2'</span><span class="op">,</span> <span class="st">'ratio_percent'</span>]</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>}))<span class="op">;</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(ui<span class="op">.</span><span class="fu">Button</span>({</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">'Export Monthly Data'</span><span class="op">,</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">onClick</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    exportStatus<span class="op">.</span><span class="fu">setValue</span>(<span class="st">'Exporting monthly data. Please click "Run" in the Tasks tab...'</span>)<span class="op">;</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    Export<span class="op">.</span><span class="at">table</span><span class="op">.</span><span class="fu">toDrive</span>({</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>      <span class="dt">collection</span><span class="op">:</span> monthlyStats<span class="op">,</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>      <span class="dt">description</span><span class="op">:</span> <span class="st">'Monthly_Chaohu_Bloom_Stats'</span><span class="op">,</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>      <span class="dt">fileFormat</span><span class="op">:</span> <span class="st">'CSV'</span><span class="op">,</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>      <span class="dt">selectors</span><span class="op">:</span> [<span class="st">'year_month'</span><span class="op">,</span> <span class="st">'month'</span><span class="op">,</span> <span class="st">'monthly_bloom_area_km2'</span><span class="op">,</span> <span class="st">'monthly_ratio_percent'</span><span class="op">,</span> <span class="st">'observation_count'</span>]</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>}))<span class="op">;</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>panel<span class="op">.</span><span class="fu">add</span>(ui<span class="op">.</span><span class="fu">Button</span>({</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">'Export Yearly Data'</span><span class="op">,</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>  <span class="dt">onClick</span><span class="op">:</span> <span class="kw">function</span>() {</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>    exportStatus<span class="op">.</span><span class="fu">setValue</span>(<span class="st">'Exporting yearly data. Please click "Run" in the Tasks tab...'</span>)<span class="op">;</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>    Export<span class="op">.</span><span class="at">table</span><span class="op">.</span><span class="fu">toDrive</span>({</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>      <span class="dt">collection</span><span class="op">:</span> yearlyStats<span class="op">,</span></span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>      <span class="dt">description</span><span class="op">:</span> <span class="st">'Yearly_Chaohu_Bloom_Stats'</span><span class="op">,</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>      <span class="dt">fileFormat</span><span class="op">:</span> <span class="st">'CSV'</span><span class="op">,</span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>      <span class="dt">selectors</span><span class="op">:</span> [<span class="st">'year'</span><span class="op">,</span> <span class="st">'yearly_bloom_area_km2'</span><span class="op">,</span> <span class="st">'yearly_ratio_percent'</span><span class="op">,</span> <span class="st">'observation_count'</span>]</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>}))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<p>[1]Brooks, B.W., Lazorchak, J.M., Howard, M.D., Johnson, M.V.V., Morton, S.L., Perkins, D.A., Reavie, E.D., Scott, G.I., Smith, S.A. and Steevens, J.A., 2016. Are harmful algal blooms becoming the greatest inland water quality threat to public health and aquatic ecosystems?. Environmental toxicology and chemistry, 35(1), pp.6-13.</p>
+<p>[2]Jing, Y., Zhang, Y., Hu, M., Chu, Q. and Ma, R., 2019. MODIS-satellite-based analysis of long-term temporal-spatial dynamics and drivers of algal blooms in a plateau lake Dianchi, China. Remote Sensing, 11(21), p.2582.</p>
+<p>[3]Guo, H., Liu, H., Lyu, H., Bian, Y., Zhong, S., Li, Y., Miao, S., Yang, Z., Xu, J., Cao, J. and Li, Y., 2022. Is there any difference on cyanobacterial blooms patterns between Lake Chaohu and Lake Taihu over the last 20 years?. Environmental Science and Pollution Research, 29(27), pp.40941-40953.</p>
+<p>[4]Song, T., Xu, C., Yan, F. &amp; Zhang, J. (2025) ‘Spatiotemporal Monitoring of Lake Cyanobacterial Blooms Based on Sentinel-2 Data’, China Environmental Monitoring, 41(1), pp.&nbsp;214–224 [5]Hu, C., 2009. A novel ocean color index to detect floating algae in the global oceans. Remote Sensing of Environment, 113(10), pp.2118-2129.</p>
 
 
 </section>
@@ -209,6 +698,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -277,13 +793,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'alternate';
+  const darkModeDefault = true;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -318,18 +836,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -361,11 +868,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -375,8 +921,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -388,7 +943,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -432,6 +1110,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -457,6 +1136,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -517,6 +1222,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
