@@ -89,7 +89,7 @@ var s2 = ee.ImageCollection('COPERNICUS/S2')
   .filterDate(startDate, endDate)
   .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   
-var compositeImage = s2.mosaic(); //Synthesize images within the same time period
+var medianComposite = s2.median().clip(chaohu);
 ```
 ### 3.2 Remote Sensing Indices
 To effectively identify cyanobacterial blooms, we calculate and apply three key remote sensing indices:
@@ -102,6 +102,34 @@ where $\rho_{\text{Green}}$ represents the reflectance of the green band (B3), a
 ```js
 // Calculate MNDWI
 var mndwi = medianComposite.normalizedDifference(['B3', 'B11']).rename('MNDWI');
+
+// set MNDWI threshold, generate water musk
+var waterMask = mndwi.gt(0.1).selfMask(); // MNDWI > 0.1 
+
+// Convert the water mask into a vector
+var waterVector = waterMask.clip(chaohu).reduceToVectors({
+  geometryType: 'polygon',
+  reducer: ee.Reducer.countEvery(),
+  scale: 30,
+  maxPixels: 10e6,
+  bestEffort: true
+});
+
+// filter water bodies
+var minArea = 1000000; // 
+var filteredWater = waterVector.filter(ee.Filter.gte('count', minArea));
+
+// Extract the boundary of the water body
+// Buffer it inward by 20 meters to remove the influence of the waterway junction
+var bufferedWaterOutline = filteredWater.map(function(feature) {
+  return feature.buffer(-20); // 向内缓冲 20 米
+});
+
+// Create a Chaohu Lake mask for later use
+var waterMaskImage = ee.Image().byte().paint({
+  featureCollection: filteredWater,
+  color: 1
+}).clip(chaohu);
 ```
 
 2. Floating Algae Index (FAI)

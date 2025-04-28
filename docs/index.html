@@ -232,7 +232,7 @@ window.Quarto = {
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">filterDate</span>(startDate<span class="op">,</span> endDate)</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">filter</span>(ee<span class="op">.</span><span class="at">Filter</span><span class="op">.</span><span class="fu">lt</span>(<span class="st">'CLOUDY_PIXEL_PERCENTAGE'</span><span class="op">,</span> <span class="dv">20</span>))</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> compositeImage <span class="op">=</span> s2<span class="op">.</span><span class="fu">mosaic</span>()<span class="op">;</span> <span class="co">//Synthesize images within the same time period</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> medianComposite <span class="op">=</span> s2<span class="op">.</span><span class="fu">median</span>()<span class="op">.</span><span class="fu">clip</span>(chaohu)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="remote-sensing-indices" class="level3">
 <h3 class="anchored" data-anchor-id="remote-sensing-indices">3.2 Remote Sensing Indices</h3>
@@ -240,7 +240,35 @@ window.Quarto = {
 \text{MNDWI} = \frac{\rho_{\text{green}} - \rho_{\text{swir}}}{\rho_{\text{green}} + \rho_{\text{swir}}}
 \]</span> where <span class="math inline">\(\rho_{\text{Green}}\)</span> represents the reflectance of the green band (B3), and <span class="math inline">\(\rho_{\text{SWIR}}\)</span> epresents the reflectance of the shortwave infrared band (B11).</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Calculate MNDWI</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> mndwi <span class="op">=</span> medianComposite<span class="op">.</span><span class="fu">normalizedDifference</span>([<span class="st">'B3'</span><span class="op">,</span> <span class="st">'B11'</span>])<span class="op">.</span><span class="fu">rename</span>(<span class="st">'MNDWI'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> mndwi <span class="op">=</span> medianComposite<span class="op">.</span><span class="fu">normalizedDifference</span>([<span class="st">'B3'</span><span class="op">,</span> <span class="st">'B11'</span>])<span class="op">.</span><span class="fu">rename</span>(<span class="st">'MNDWI'</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">// set MNDWI threshold, generate water musk</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> waterMask <span class="op">=</span> mndwi<span class="op">.</span><span class="fu">gt</span>(<span class="fl">0.1</span>)<span class="op">.</span><span class="fu">selfMask</span>()<span class="op">;</span> <span class="co">// MNDWI &gt; 0.1 </span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Convert the water mask into a vector</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> waterVector <span class="op">=</span> waterMask<span class="op">.</span><span class="fu">clip</span>(chaohu)<span class="op">.</span><span class="fu">reduceToVectors</span>({</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">geometryType</span><span class="op">:</span> <span class="st">'polygon'</span><span class="op">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">reducer</span><span class="op">:</span> ee<span class="op">.</span><span class="at">Reducer</span><span class="op">.</span><span class="fu">countEvery</span>()<span class="op">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">scale</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">maxPixels</span><span class="op">:</span> <span class="fl">10e6</span><span class="op">,</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bestEffort</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">// filter water bodies</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> minArea <span class="op">=</span> <span class="dv">1000000</span><span class="op">;</span> <span class="co">// </span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> filteredWater <span class="op">=</span> waterVector<span class="op">.</span><span class="fu">filter</span>(ee<span class="op">.</span><span class="at">Filter</span><span class="op">.</span><span class="fu">gte</span>(<span class="st">'count'</span><span class="op">,</span> minArea))<span class="op">;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">// Extract the boundary of the water body</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">// Buffer it inward by 20 meters to remove the influence of the waterway junction</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> bufferedWaterOutline <span class="op">=</span> filteredWater<span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span>(feature) {</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> feature<span class="op">.</span><span class="fu">buffer</span>(<span class="op">-</span><span class="dv">20</span>)<span class="op">;</span> <span class="co">// 向内缓冲 20 米</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">// Create a Chaohu Lake mask for later use</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> waterMaskImage <span class="op">=</span> ee<span class="op">.</span><span class="fu">Image</span>()<span class="op">.</span><span class="fu">byte</span>()<span class="op">.</span><span class="fu">paint</span>({</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="dt">featureCollection</span><span class="op">:</span> filteredWater<span class="op">,</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="dt">color</span><span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>})<span class="op">.</span><span class="fu">clip</span>(chaohu)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
 <li>Floating Algae Index (FAI) Used to enhance the detection of floating algae by minimizing atmospheric effects. It is calculated as: <span class="math display">\[
 \text{FAI} = \rho_{\text{nir}} - \rho_{\text{nir}}'
